@@ -33,4 +33,10 @@ public class User {
         this.email = email;
     }
 
+    User(String username, String password, String email){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
 }

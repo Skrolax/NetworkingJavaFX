@@ -13,7 +13,6 @@ public class SocketClientHandler implements Initializable {
     private Socket socket;
     private User user;
 
-
     public Socket getSocket() {
         return socket;
     }
