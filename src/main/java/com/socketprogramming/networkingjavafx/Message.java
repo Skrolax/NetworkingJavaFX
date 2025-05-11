@@ -4,21 +4,21 @@ public class Message {
 
     // Author ID
 
-    private String authorID;
+    private final String authorID;
     public String getAuthorID() {
         return authorID;
     }
 
     // Sender ID
 
-    private String senderID;
+    private final String senderID;
     public String getSenderID() {
         return senderID;
     }
 
     // Message
 
-    private String message;
+    private final String message;
     public String getMessage() {
         return message;
     }
