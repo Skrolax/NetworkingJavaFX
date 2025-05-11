@@ -4,6 +4,16 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
+    // ID
+
+    private int ID;
+    public int getID() {
+        return ID;
+    }
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     // Username
 
     private String username;
