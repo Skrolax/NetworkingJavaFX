@@ -47,6 +47,7 @@ public class RegisterFormController {
         stage.setScene(scene);
         stage.show();
     }
+
     private void closeRegisterWindow(){
         ((Stage)usernameRegisterField.getScene().getWindow()).close();
     }

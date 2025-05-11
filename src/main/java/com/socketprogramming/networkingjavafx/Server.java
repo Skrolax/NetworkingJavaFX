@@ -11,7 +11,6 @@ public class Server {
 
     static ServerSocket server;
     static Socket socket;
-    static User userData;
     static ArrayList<SocketClientHandler> clients = new ArrayList<>();
 
 
@@ -23,14 +22,12 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
         startServer();
         while(true){
             socket = server.accept();
             SocketClientHandler client = new SocketClientHandler(socket);
             clients.add(client);
-            System.out.println(client.userData.getUsername() + " has joined!");
-
         }
     }
 }

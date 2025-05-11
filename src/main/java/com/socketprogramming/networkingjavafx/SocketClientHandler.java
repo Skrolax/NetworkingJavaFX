@@ -1,24 +1,13 @@
 package com.socketprogramming.networkingjavafx;
 
-import javafx.fxml.Initializable;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class SocketClientHandler{
+public class SocketClientHandler {
 
-    private Socket socket;
+    private final Socket socket;
     public User userData;
-
-    SocketClientHandler(Socket socket){
-        this.socket = socket;
-        receiveUser();
-    }
-
 
     private void receiveUser(){
         ObjectInputStream receive = null;
@@ -39,4 +28,10 @@ public class SocketClientHandler{
             System.out.println("Couldn't close the ObjectInputStream");
         }
     }
+
+    SocketClientHandler(Socket socket){
+        this.socket = socket;
+        receiveUser();
+    }
+
 }
