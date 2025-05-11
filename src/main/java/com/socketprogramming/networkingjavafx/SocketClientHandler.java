@@ -3,42 +3,40 @@ package com.socketprogramming.networkingjavafx;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SocketClientHandler implements Initializable {
+public class SocketClientHandler{
 
     private Socket socket;
-    private User user;
-
-    public Socket getSocket() {
-        return socket;
-    }
+    public User userData;
 
     SocketClientHandler(Socket socket){
         this.socket = socket;
+        receiveUser();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObjectOutputStream returnUser = null;
+
+    private void receiveUser(){
+        ObjectInputStream receive = null;
         try {
-            returnUser = new ObjectOutputStream(socket.getOutputStream());
+            receive = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            System.out.println("Cannot open ObjectOutputStream");
+            System.out.println("Couldn't create ObjectInputStream object");
         }
         try {
-            assert returnUser != null;
-            returnUser.writeObject(user);
-        } catch (IOException e) {
-            System.out.println("Cannot send user to server");
+            assert receive != null;
+            userData = (User) receive.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Couldn't receive the User object");
         }
         try {
-            returnUser.close();
+            receive.close();
         } catch (IOException e) {
-            System.out.println("Cannot close the ObjectOutputStream");
+            System.out.println("Couldn't close the ObjectInputStream");
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.socketprogramming.networkingjavafx;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     // Username
 

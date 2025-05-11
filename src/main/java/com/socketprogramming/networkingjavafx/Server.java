@@ -23,39 +23,14 @@ public class Server {
         }
     }
 
-    public static void getClientUserData(Socket socket){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ObjectInputStream getData = null;
-                try {
-                    getData = new ObjectInputStream(socket.getInputStream());
-                } catch (IOException e) {
-                    System.out.println("Cannot open ObjectOutputStream");
-                }
-                try {
-                    assert getData != null;
-                    userData = (User) getData.readObject();
-                } catch (Exception e) {
-                    System.out.println("Cannot send user to server");
-                }
-                try {
-                    getData.close();
-                } catch (IOException e) {
-                    System.out.println("Cannot close the ObjectInputStream");
-                }
-            }
-        }).start();
-
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         startServer();
         while(true){
             socket = server.accept();
             SocketClientHandler client = new SocketClientHandler(socket);
-            getClientUserData(socket);
             clients.add(client);
+            System.out.println(client.userData.getUsername() + " has joined!");
+
         }
     }
 }
