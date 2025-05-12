@@ -4,17 +4,16 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ReceiveMessages extends Thread{
+public class ServerReceiveMessages extends Thread{
 
     private Socket socket;
     private ObjectInputStream receive;
     private Gson gson = new Gson();
 
 
-    ReceiveMessages(Socket socket, ObjectInputStream receive) throws IOException {
+    ServerReceiveMessages(Socket socket, ObjectInputStream receive) throws IOException {
         this.socket = socket;
         this.receive = receive;
     }

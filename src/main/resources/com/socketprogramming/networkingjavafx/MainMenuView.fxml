@@ -4,7 +4,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.MainMenuController">
    <children>
       <TextField fx:id="messagePrompt" layoutX="22.0" layoutY="340.0" prefHeight="26.0" prefWidth="465.0" />
