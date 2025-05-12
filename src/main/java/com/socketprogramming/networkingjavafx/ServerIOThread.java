@@ -8,19 +8,23 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Objects;
 
-public class ServerIO extends Thread{
+public class ServerIOThread extends Thread{
 
+    //Socket
     private Socket socket;
     private ObjectInputStream receive;
     private ObjectOutputStream send;
+
+    //Misc.
     private Gson gson = new Gson();
 
-
-    ServerIO(Socket socket, ObjectInputStream receive) throws IOException {
+    //Constructor
+    ServerIOThread(Socket socket, ObjectInputStream receive) throws IOException {
         this.socket = socket;
         this.receive = receive;
     }
 
+    //Thread's method
     @Override
     public void run(){
         while(true){

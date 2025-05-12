@@ -11,23 +11,22 @@ import java.io.IOException;
 
 public class RegisterFormController {
 
+    //Misc.
     static User user;
 
+    //FXML variables
     @FXML
     TextField usernameRegisterField;
-
     @FXML
     TextField passwordRegisterField;
-
     @FXML
     TextField emailRegisterField;
-
     @FXML
     Label registerStatusLabel;
 
-    //this will update the User object and will open the Main Menu Window
+    //FXML methods
     @FXML
-    public void registerUser() throws IOException {
+    public void registerUser() throws IOException { //this will update the User object and will open the Main Menu Window
         user = new User(
                 usernameRegisterField.getText(), passwordRegisterField.getText(), emailRegisterField.getText()
         );
@@ -39,6 +38,7 @@ public class RegisterFormController {
         openMainMenuWindow();
     }
 
+    //Methods
     private void openMainMenuWindow() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("MainMenuView.fxml"));
@@ -47,7 +47,6 @@ public class RegisterFormController {
         stage.setScene(scene);
         stage.show();
     }
-
     private void closeRegisterWindow(){
         ((Stage)usernameRegisterField.getScene().getWindow()).close();
     }

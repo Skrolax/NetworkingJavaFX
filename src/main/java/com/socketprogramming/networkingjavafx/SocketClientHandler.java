@@ -13,7 +13,7 @@ public class SocketClientHandler {
     public ObjectOutputStream send;
 
     //Threads
-    private ServerIO serverIOThread;
+    private ServerIOThread serverIOThread;
 
     //Misc.
     private User userData;
@@ -42,7 +42,7 @@ public class SocketClientHandler {
         }
     }
     private void startReceiveMessageThread() throws IOException {
-        serverIOThread = new ServerIO(socket, receive);
+        serverIOThread = new ServerIOThread(socket, receive);
         serverIOThread.start();
     }
 
