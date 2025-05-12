@@ -28,6 +28,7 @@ public class Server {
             socket = server.accept();
             SocketClientHandler client = new SocketClientHandler(socket);
             clients.add(client);
+            System.out.println(client.userData.getUsername());
         }
     }
 }
