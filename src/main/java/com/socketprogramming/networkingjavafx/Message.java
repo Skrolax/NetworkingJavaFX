@@ -1,17 +1,19 @@
 package com.socketprogramming.networkingjavafx;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
 
     // Author ID
 
-    private final String authorID;
+    private /*final*/ String authorID;
     public String getAuthorID() {
         return authorID;
     }
 
     // Sender ID
 
-    private final String senderID;
+    private /*final*/ String senderID;
     public String getSenderID() {
         return senderID;
     }
@@ -23,10 +25,10 @@ public class Message {
         return message;
     }
 
-    public Message(String message, String senderID, String authorID) {
+    public Message(String message/*, String senderID, /*String authorID*/) {
         this.message = message;
-        this.senderID = senderID;
-        this.authorID = authorID;
+        //this.senderID = senderID;
+        //this.authorID = authorID;
     }
 
 }

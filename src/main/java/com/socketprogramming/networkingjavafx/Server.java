@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server {
+public class Server{
 
     static ServerSocket server;
     static Socket socket;
@@ -28,7 +28,7 @@ public class Server {
             socket = server.accept();
             SocketClientHandler client = new SocketClientHandler(socket);
             clients.add(client);
-            System.out.println(client.userData.getUsername());
+            System.out.println(client.userData.getUsername() + " has connected.");
         }
     }
 }
