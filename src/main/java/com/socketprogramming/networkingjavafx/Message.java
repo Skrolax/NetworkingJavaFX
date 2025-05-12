@@ -13,7 +13,7 @@ public class Message implements Serializable {
 
     // Sender ID
 
-    private /*final*/ String receiverID;
+    private final String receiverID;
     public String getReceiverID() {
         return receiverID;
     }
@@ -25,10 +25,10 @@ public class Message implements Serializable {
         return message;
     }
 
-    public Message(String message, String authorID /*String receiverID,*/) {
+    public Message(String message, String authorID, String receiverID) {
         this.message = message;
         this.authorID = authorID;
-        //this.receiverID = receiverID;
+        this.receiverID = receiverID;
     }
 
 }

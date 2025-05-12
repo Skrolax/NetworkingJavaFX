@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
@@ -22,6 +23,7 @@ public class MainMenuController implements Initializable {
     private ObjectInputStream receive;
 
     //Threads
+    ClientReceiveMessages clientReceiveMessagesThread;
 
     //Misc.
     private final User user = RegisterFormController.user;
@@ -29,16 +31,21 @@ public class MainMenuController implements Initializable {
 
     //FXML variables
     @FXML
-    TextField messagePrompt;
+    TextField messagePromptField;
+    @FXML
+    TextField senderIDField;
     @FXML
     Button sendMessageButton;
 
     //FXML methods
     @FXML
     public void sendMessage() throws IOException {
-        Message message = new Message(messagePrompt.getText(), user.getUsername());
+        Message message = new Message(
+                messagePromptField.getText(), user.getUsername(), senderIDField.getText()
+        );
         send.writeObject(gson.toJson(message));
-        messagePrompt.clear();
+        messagePromptField.clear();
+        senderIDField.clear();
     }
 
     //Initialize
@@ -66,6 +73,13 @@ public class MainMenuController implements Initializable {
             System.out.println("Couldn't send the User data");
         }
 
+        //Starting ReceiveMessage Thread
+        try {
+            startReceiveMessageThread();
+        } catch (IOException e) {
+            System.out.println("Couldn't start the ClientReceiveMessage thread");
+        }
+
     }
     private void connectToServer() throws IOException {
         socket = new Socket("localhost", 5555);
@@ -82,6 +96,10 @@ public class MainMenuController implements Initializable {
     private void initializeObjectStreams() throws IOException {
         send = new ObjectOutputStream(socket.getOutputStream());
         receive = new ObjectInputStream(socket.getInputStream());
+    }
+    private void startReceiveMessageThread() throws IOException {
+        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive);
+        clientReceiveMessagesThread.start();
     }
 
 }

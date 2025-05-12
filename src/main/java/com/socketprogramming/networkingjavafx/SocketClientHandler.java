@@ -9,11 +9,11 @@ public class SocketClientHandler {
 
     //Socket
     private final Socket socket;
-    private ObjectInputStream receive;
-    private ObjectOutputStream send;
+    public ObjectInputStream receive;
+    public ObjectOutputStream send;
 
     //Threads
-    private ServerReceiveMessages serverReceiveMessagesThread;
+    private ServerIO serverIOThread;
 
     //Misc.
     private User userData;
@@ -42,8 +42,8 @@ public class SocketClientHandler {
         }
     }
     private void startReceiveMessageThread() throws IOException {
-        serverReceiveMessagesThread = new ServerReceiveMessages(socket, receive);
-        serverReceiveMessagesThread.start();
+        serverIOThread = new ServerIO(socket, receive);
+        serverIOThread.start();
     }
 
 }
