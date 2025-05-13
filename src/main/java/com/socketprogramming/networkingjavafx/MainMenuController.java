@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -13,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -37,6 +39,8 @@ public class MainMenuController implements Initializable {
     TextField senderIDField;
     @FXML
     Button sendMessageButton;
+    @FXML
+    TextArea messageArea;
 
     //FXML methods
     @FXML
@@ -45,6 +49,7 @@ public class MainMenuController implements Initializable {
                 messagePromptField.getText(), user.getUsername(), senderIDField.getText()
         );
         send.writeObject(gson.toJson(message));
+        messageArea.appendText(message.getAuthorID() + ": " + message.getMessage() + "\n");
         messagePromptField.clear();
         senderIDField.clear();
     }
@@ -99,7 +104,7 @@ public class MainMenuController implements Initializable {
         receive = new ObjectInputStream(socket.getInputStream());
     }
     private void startReceiveMessageThread() throws IOException {
-        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive);
+        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
         clientReceiveMessagesThread.start();
     }
 

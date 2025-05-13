@@ -1,6 +1,7 @@
 package com.socketprogramming.networkingjavafx;
 
 import com.google.gson.Gson;
+import javafx.scene.control.TextArea;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +14,6 @@ public class ServerIOThread extends Thread{
     //Socket
     private Socket socket;
     private ObjectInputStream receive;
-    private ObjectOutputStream send;
 
     //Misc.
     private Gson gson = new Gson();
@@ -33,7 +33,7 @@ public class ServerIOThread extends Thread{
                 Message message = gson.fromJson(messageJSON, Message.class);
                 for(SocketClientHandler client : Server.clients){
                     if(Objects.equals(client.getUserData().getUsername(), message.getReceiverID())){
-                        client.send.writeObject(message.getMessage());
+                        client.send.writeObject(message);
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {

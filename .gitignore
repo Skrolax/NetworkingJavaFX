@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Personal ###
+
+/src/main/java/com/socketprogramming/networkingjavafx/DatabaseConnection.java

@@ -10,6 +10,6 @@
       <TextField fx:id="messagePromptField" layoutX="22.0" layoutY="340.0" prefHeight="26.0" prefWidth="279.0" promptText="your message" />
       <Button fx:id="sendMessageButton" layoutX="528.0" layoutY="340.0" mnemonicParsing="false" onAction="#sendMessage" text="Send" />
       <TextField fx:id="senderIDField" layoutX="315.0" layoutY="340.0" prefHeight="26.0" prefWidth="199.0" promptText="sender's username" />
-      <TextArea layoutX="22.0" layoutY="14.0" prefHeight="316.0" prefWidth="550.0" />
+      <TextArea fx:id="messageArea" layoutX="22.0" layoutY="14.0" prefHeight="316.0" prefWidth="550.0" />
    </children>
 </AnchorPane>
