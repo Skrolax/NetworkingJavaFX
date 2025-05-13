@@ -18,11 +18,13 @@ import java.util.ResourceBundle;
 
 public class RegisterFormController implements Initializable {
 
+    //Database
+    private DatabaseConnection databaseConnection;
+    private PreparedStatement sqlStatement;
+
     //Misc.
     static User user;
-    private PreparedStatement sqlStatement;
     private int registerStatus;
-    private DatabaseConnection databaseConnection;
 
     //FXML variables
     @FXML
@@ -40,15 +42,15 @@ public class RegisterFormController implements Initializable {
         user = new User(
                 usernameRegisterField.getText(), passwordRegisterField.getText(), emailRegisterField.getText()
         );
-        clearRegisterFields();
+
         createRegisterStatementDB();
 
         if(registerStatus == 0){
             registerStatusLabel.setText("Error occurred while registering");
+            clearRegisterFields();
             return;
         }
 
-        registerStatusLabel.setText("Registered Successfully!");
         closeRegisterWindow();
         openMainMenuWindow();
     }

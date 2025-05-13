@@ -7,10 +7,10 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.LoginFormController">
     <children>
-        <TextField fx:id="usernameRegisterField" layoutX="224.0" layoutY="137.0" promptText="Username" />
-        <TextField fx:id="passwordRegisterField" layoutX="224.0" layoutY="174.0" promptText="Password" />
-        <Button fx:id="registerButton" alignment="CENTER" contentDisplay="CENTER" layoutX="276.0" layoutY="212.0" mnemonicParsing="false" onAction="#loginUser" text="Login" textAlignment="CENTER" />
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="59.0" prefHeight="18.0" prefWidth="150.0" text="Login Form" textAlignment="CENTER" />
-        <Label fx:id="registerStatusLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" layoutY="311.0" textAlignment="CENTER" />
+        <TextField fx:id="usernameLoginField" layoutX="223.0" layoutY="112.0" promptText="Username" />
+        <TextField fx:id="passwordLoginField" layoutX="224.0" layoutY="157.0" promptText="Password" />
+        <Button fx:id="loginButton" alignment="CENTER" contentDisplay="CENTER" layoutX="277.0" layoutY="200.0" mnemonicParsing="false" onAction="#loginUser" text="Login" textAlignment="CENTER" />
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="223.0" layoutY="63.0" prefHeight="18.0" prefWidth="150.0" text="Login Form" textAlignment="CENTER" />
+        <Label fx:id="loginStatusLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" layoutY="311.0" textAlignment="CENTER" />
     </children>
 </AnchorPane>
