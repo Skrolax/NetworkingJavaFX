@@ -4,24 +4,20 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    //ID
-    private int ID;
-    public int getID() {
-        return ID;
-    }
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     //Username
     private String username;
     public String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
+    //Nickname
+    private String nickname;
+    public String getNickname() {
+        return nickname;
+    }
+    public void setNickname(String nickname) {
+        this.username = nickname;
+    }
 
     //Password
     private String password;
