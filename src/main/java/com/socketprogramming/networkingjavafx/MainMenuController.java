@@ -86,12 +86,6 @@ public class MainMenuController implements Initializable {
             System.out.println("Couldn't start the ClientReceiveMessage thread");
         }
 
-        try {
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
     }
     private void connectToServer() throws IOException {
         socket = new Socket("localhost", 5555);
