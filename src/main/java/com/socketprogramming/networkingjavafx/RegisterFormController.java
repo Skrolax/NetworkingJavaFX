@@ -20,7 +20,7 @@ public class RegisterFormController implements Initializable {
 
     //Database
     private DatabaseConnection databaseConnection;
-    private PreparedStatement sqlStatement;
+    private LoginRegisterDB loginRegisterDB;
 
     //Misc.
     static User user;
@@ -42,15 +42,11 @@ public class RegisterFormController implements Initializable {
         user = new User(
                 usernameRegisterField.getText(), passwordRegisterField.getText(), emailRegisterField.getText()
         );
-
-        createRegisterStatementDB();
-
-        if(registerStatus == 0){
-            registerStatusLabel.setText("Error occurred while registering");
+        if(!loginRegisterDB.registerUser(user)){
+            System.out.println("Couldn't register the user");
             clearRegisterFields();
             return;
-        }
-
+        };
         closeRegisterWindow();
         openMainMenuWindow();
     }
@@ -67,12 +63,6 @@ public class RegisterFormController implements Initializable {
     private void closeRegisterWindow(){
         ((Stage)usernameRegisterField.getScene().getWindow()).close();
     }
-    private void createRegisterStatementDB() throws SQLException {
-        sqlStatement.setString(1, user.getUsername());
-        sqlStatement.setString(2, user.getPassword());
-        sqlStatement.setString(3, user.getEmail());
-        registerStatus = sqlStatement.executeUpdate();
-    }
     private void clearRegisterFields(){
         usernameRegisterField.clear();
         passwordRegisterField.clear();
@@ -87,13 +77,6 @@ public class RegisterFormController implements Initializable {
         } catch (SQLException e) {
             System.out.println("Couldn't connect to the database!");
         }
-        assert databaseConnection != null;
-        try {
-            sqlStatement = databaseConnection.getConnection().prepareStatement(
-                    "INSERT INTO users (Username, UserPassword, Email) VALUES (?, ?, ?)"
-            );
-        } catch (SQLException e) {
-            System.out.println("Couldn't create the SQL Statement");
-        }
+        loginRegisterDB = new LoginRegisterDB(databaseConnection);
     }
 }

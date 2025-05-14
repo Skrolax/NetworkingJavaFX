@@ -29,7 +29,7 @@ public class MainMenuController implements Initializable {
     ClientReceiveMessages clientReceiveMessagesThread;
 
     //Misc.
-    private final User user = RegisterFormController.user;
+    private final User user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
     private final Gson gson = new Gson();
 
     //FXML variables

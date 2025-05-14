@@ -20,8 +20,7 @@ public class LoginFormController implements Initializable {
 
     //Database
     private DatabaseConnection databaseConnection;
-    private PreparedStatement sqlStatement;
-    ResultSet loginResultSet;
+    private LoginRegisterDB loginRegisterDB;
 
     //Misc.
     static User user;
@@ -38,13 +37,10 @@ public class LoginFormController implements Initializable {
     //FXML methods
     @FXML
     public void loginUser() throws IOException, SQLException { //this will update the User object and will open the Main Menu Window
-        createLoginStatementDB();
-        if(loginStatus == 0){
-            loginStatusLabel.setText("Error occurred while logging in");
+        user = loginRegisterDB.loginUser(usernameLoginField.getText(), passwordLoginField.getText());
+        if(user == null){
+            loginStatusLabel.setText("Login failed");
             clearLoginFields();
-            return;
-        }
-        if(!verifyUserdata()) {
             return;
         }
         closeLoginWindow();
@@ -63,34 +59,9 @@ public class LoginFormController implements Initializable {
     private void closeLoginWindow(){
         ((Stage)usernameLoginField.getScene().getWindow()).close();
     }
-    private void createLoginStatementDB() throws SQLException {
-        sqlStatement.setString(1, usernameLoginField.getText());
-        loginResultSet = sqlStatement.executeQuery();
-
-        if(!loginResultSet.next()){
-            loginStatus = 0;
-            return;
-        }
-
-        user = new User(
-                loginResultSet.getString("Username"), loginResultSet.getString("UserPassword"), loginResultSet.getString("Email")
-        );
-
-    }
     private void clearLoginFields(){
         usernameLoginField.clear();
         passwordLoginField.clear();
-    }
-    private boolean verifyUserdata(){
-        if(!Objects.equals(usernameLoginField.getText(), user.getUsername())){
-            loginStatusLabel.setText("Invalid username or password");
-            return false;
-        }
-        if(!Objects.equals(passwordLoginField.getText(), user.getPassword())){
-            loginStatusLabel.setText("Invalid username or password");
-            return false;
-        }
-        return true;
     }
 
     //Initialize
@@ -101,13 +72,6 @@ public class LoginFormController implements Initializable {
         } catch (SQLException e) {
             System.out.println("Couldn't connect to the database!");
         }
-        assert databaseConnection != null;
-        try {
-            sqlStatement = databaseConnection.getConnection().prepareStatement(
-                    "SELECT * FROM users WHERE Username = ?"
-            );
-        } catch (SQLException e) {
-            System.out.println("Couldn't create the SQL Statement");
-        }
+        loginRegisterDB = new LoginRegisterDB(databaseConnection);
     }
 }
