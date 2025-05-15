@@ -44,7 +44,7 @@ public class ServerIOThread extends Thread{
                     TextMessage textMessage = gson.fromJson(messageJSON, TextMessage.class);
                     for(SocketClientHandler client : Server.clients){
                         if(Objects.equals(client.getUserData().getUsername(), textMessage.getReceiverUsername())){
-                            client.send.writeObject(textMessage);
+                            client.send.writeObject(gson.toJson(textMessage));
                         }
                     }
                 }
