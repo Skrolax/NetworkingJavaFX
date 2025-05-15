@@ -17,7 +17,7 @@ public class RegisterFormController implements Initializable {
 
     //Database
     private DatabaseConnection databaseConnection;
-    private LoginRegisterDB loginRegisterDB;
+    private DBAccess DBAccess;
 
     //Misc.
     static User user;
@@ -39,7 +39,7 @@ public class RegisterFormController implements Initializable {
         user = new User(
                 usernameRegisterField.getText(), passwordRegisterField.getText(), emailRegisterField.getText()
         );
-        if(!loginRegisterDB.registerUser(user)){
+        if(!DBAccess.registerUser(user)){
             System.out.println("Couldn't register the user");
             clearRegisterFields();
             return;
@@ -52,7 +52,7 @@ public class RegisterFormController implements Initializable {
     private void openMainMenuWindow() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("MainMenuView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 939, 648);
         stage.setTitle("Chat App");
         stage.setScene(scene);
         stage.show();
@@ -74,6 +74,6 @@ public class RegisterFormController implements Initializable {
         } catch (SQLException e) {
             System.out.println("Couldn't connect to the database!");
         }
-        loginRegisterDB = new LoginRegisterDB(databaseConnection);
+        DBAccess = new DBAccess(databaseConnection);
     }
 }

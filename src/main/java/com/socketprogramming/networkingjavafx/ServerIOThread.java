@@ -1,11 +1,12 @@
 package com.socketprogramming.networkingjavafx;
 
 import com.google.gson.Gson;
-import javafx.scene.control.TextArea;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class ServerIOThread extends Thread{
 
     //Socket
     private Socket socket;
-    private ObjectInputStream receive;
+    private final ObjectInputStream receive;
 
     //Misc.
     private Gson gson = new Gson();
@@ -24,18 +25,43 @@ public class ServerIOThread extends Thread{
         this.receive = receive;
     }
 
+    //Methods
+
+    private String getServerRequestType(String messageJSON){
+        JsonObject jsonObject = JsonParser.parseString(messageJSON).getAsJsonObject();
+        return jsonObject.get("requestType").getAsString();
+    }
+
     //Thread's method
     @Override
     public void run(){
         while(true){
             try {
                 String messageJSON = (String) receive.readObject();
-                Message message = gson.fromJson(messageJSON, Message.class);
-                for(SocketClientHandler client : Server.clients){
-                    if(Objects.equals(client.getUserData().getUsername(), message.getReceiverID())){
-                        client.send.writeObject(message);
+                String type = getServerRequestType(messageJSON);
+
+                if (Objects.equals(type, Objects.toString(RequestType.TEXTMESSAGE))) {
+                    TextMessage textMessage = gson.fromJson(messageJSON, TextMessage.class);
+                    for(SocketClientHandler client : Server.clients){
+                        if(Objects.equals(client.getUserData().getUsername(), textMessage.getReceiverUsername())){
+                            client.send.writeObject(textMessage);
+                        }
                     }
                 }
+                else if (Objects.equals(type, Objects.toString(RequestType.IMAGEMESSAGE))) {
+                    ImageMessage imageMessage = gson.fromJson(messageJSON, ImageMessage.class);
+                    //TODO
+                }
+                else if (Objects.equals(type, Objects.toString(RequestType.FRIENDREQUEST))){
+                    FriendRequest friendRequest = gson.fromJson(messageJSON, FriendRequest.class);
+                    for(SocketClientHandler client : Server.clients){
+                        if(Objects.equals(client.getUserData().getUsername(), friendRequest.getReceiverUsername())){
+                            client.send.writeObject(messageJSON);
+                        }
+                    }
+                    //TODO
+                }
+
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Server couldn't receive the message");
             }

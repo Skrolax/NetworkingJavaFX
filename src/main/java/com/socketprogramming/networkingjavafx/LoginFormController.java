@@ -17,7 +17,7 @@ public class LoginFormController implements Initializable {
 
     //Database
     private DatabaseConnection databaseConnection;
-    private LoginRegisterDB loginRegisterDB;
+    private DBAccess DBAccess;
 
     //Misc.
     static User user;
@@ -33,7 +33,7 @@ public class LoginFormController implements Initializable {
     //FXML methods
     @FXML
     public void loginUser() throws IOException, SQLException { //this will update the User object and will open the Main Menu Window
-        user = loginRegisterDB.loginUser(usernameLoginField.getText(), passwordLoginField.getText());
+        user = DBAccess.loginUser(usernameLoginField.getText(), passwordLoginField.getText());
         if(user == null){
             loginStatusLabel.setText("Login failed");
             clearLoginFields();
@@ -47,7 +47,7 @@ public class LoginFormController implements Initializable {
     private void openMainMenuWindow() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("MainMenuView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 939, 648);
         stage.setTitle("Chat App");
         stage.setScene(scene);
         stage.show();
@@ -68,6 +68,6 @@ public class LoginFormController implements Initializable {
         } catch (SQLException e) {
             System.out.println("Couldn't connect to the database!");
         }
-        loginRegisterDB = new LoginRegisterDB(databaseConnection);
+        DBAccess = new DBAccess(databaseConnection);
     }
 }

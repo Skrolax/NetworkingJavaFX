@@ -4,7 +4,6 @@ module com.socketprogramming.networkingjavafx {
     requires com.google.gson;
     requires java.sql;
 
-
     opens com.socketprogramming.networkingjavafx to javafx.fxml, com.google.gson;
     exports com.socketprogramming.networkingjavafx;
 }

@@ -33,6 +33,7 @@ public class SocketClientHandler {
         receive = new ObjectInputStream(socket.getInputStream());
         send = new ObjectOutputStream(socket.getOutputStream());
     }
+
     private void receiveUser(){
         try {
             assert receive != null;
@@ -41,6 +42,7 @@ public class SocketClientHandler {
             System.out.println("Couldn't receive the User object");
         }
     }
+
     private void startReceiveMessageThread() throws IOException {
         serverIOThread = new ServerIOThread(socket, receive);
         serverIOThread.start();

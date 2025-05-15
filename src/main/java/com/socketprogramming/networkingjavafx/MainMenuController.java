@@ -33,22 +33,33 @@ public class MainMenuController implements Initializable {
     @FXML
     TextField messagePromptField;
     @FXML
-    TextField senderIDField;
+    TextField senderUsernameField;
+    @FXML
+    TextField addFriendField;
     @FXML
     Button sendMessageButton;
+    @FXML
+    Button addFriendButton;
     @FXML
     TextArea messageArea;
 
     //FXML methods
     @FXML
-    public void sendMessage() throws IOException {
-        Message message = new Message(
-                messagePromptField.getText(), user.getUsername(), senderIDField.getText()
+    public void sendTextMessage() throws IOException {
+        TextMessage textMessage = new TextMessage(
+                messagePromptField.getText(), user.getUsername(), senderUsernameField.getText()
         );
-        send.writeObject(gson.toJson(message));
-        messageArea.appendText(message.getAuthorID() + ": " + message.getMessage() + "\n");
+        send.writeObject(gson.toJson(textMessage));
+        messageArea.appendText(textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n");
         messagePromptField.clear();
-        senderIDField.clear();
+        senderUsernameField.clear();
+    }
+
+    @FXML
+    public void sendFriendRequest() throws IOException {
+        FriendRequest friendRequest = new FriendRequest(user.getUsername(), addFriendField.getText());
+        send.writeObject(gson.toJson(friendRequest));
+        addFriendField.clear();
     }
 
     //Initialize
@@ -90,9 +101,11 @@ public class MainMenuController implements Initializable {
         }
 
     }
+
     private void connectToServer() throws IOException {
         socket = new Socket("localhost", 5555);
     }
+
     private void sendUserData() throws IOException {
         try {
             assert send != null;
@@ -102,10 +115,12 @@ public class MainMenuController implements Initializable {
             System.out.println("Error occurred sending the User object");
         }
     }
+
     private void initializeObjectStreams() throws IOException {
         send = new ObjectOutputStream(socket.getOutputStream());
         receive = new ObjectInputStream(socket.getInputStream());
     }
+
     private void startReceiveMessageThread() throws IOException {
         clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
         clientReceiveMessagesThread.start();

@@ -5,14 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class LoginRegisterDB {
+public class DBAccess {
 
     //Database
-    private DatabaseConnection databaseConnection;
+    private final DatabaseConnection databaseConnection;
     private PreparedStatement sqlStatement;
     private ResultSet resultSet;
 
-    LoginRegisterDB(DatabaseConnection databaseConnection){
+    DBAccess(DatabaseConnection databaseConnection){
         this.databaseConnection = databaseConnection;
     }
 

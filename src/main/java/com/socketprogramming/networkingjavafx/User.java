@@ -1,6 +1,7 @@
 package com.socketprogramming.networkingjavafx;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -38,6 +39,12 @@ public class User implements Serializable {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    //Friends list
+    private ArrayList<String> friends;
+    public ArrayList<String> getFriends(){
+        return friends;
     }
 
     //Constructor
