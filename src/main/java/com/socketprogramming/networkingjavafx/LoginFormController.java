@@ -10,10 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginFormController implements Initializable {
@@ -24,7 +21,6 @@ public class LoginFormController implements Initializable {
 
     //Misc.
     static User user;
-    private int loginStatus;
 
     //FXML variables
     @FXML
