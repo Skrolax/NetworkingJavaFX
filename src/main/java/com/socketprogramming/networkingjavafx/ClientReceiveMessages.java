@@ -10,28 +10,15 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Objects;
 
-public class ClientReceiveMessages extends Thread{
-
-    //Socket
-    private Socket socket;
-    private ObjectInputStream receive;
-    private TextArea messageArea;
+public class ClientReceiveMessages extends IOThread{
 
     //Misc.
-    private Gson gson = new Gson();
+    private TextArea messageArea;
 
     //Constructor
-    ClientReceiveMessages(Socket socket, ObjectInputStream receive, TextArea messageArea) throws IOException {
-        this.socket = socket;
-        this.receive = receive;
+    ClientReceiveMessages(Socket socket, ObjectInputStream receive, TextArea messageArea) {
+        super(socket, receive);
         this.messageArea = messageArea;
-    }
-
-    //Methods
-
-    private String getServerRequestType(String messageJSON){
-        JsonObject jsonObject = JsonParser.parseString(messageJSON).getAsJsonObject();
-        return jsonObject.get("requestType").getAsString();
     }
 
     //Thread's method
