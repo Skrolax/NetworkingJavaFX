@@ -95,7 +95,9 @@ public class MainMenuController implements Initializable {
     public void sendFriendRequest() throws IOException {
         FriendRequest friendRequest = new FriendRequest(user.getUsername(), addFriendField.getText());
         send.writeObject(gson.toJson(friendRequest));
+        updateFriendList(addFriendField.getText());
         addFriendField.clear();
+
     }
 
     private void connectToServer() throws IOException {
@@ -127,6 +129,12 @@ public class MainMenuController implements Initializable {
             selectedFriend = button.getText();
             messageArea.clear();
         });
+    }
+
+    private void updateFriendList(String friend){
+        Button button = new Button(friend);
+        selectFriend(button);
+        friendList.getChildren().add(button);
     }
 
     //Initialize
@@ -175,9 +183,7 @@ public class MainMenuController implements Initializable {
         //Update the friend list
         assert friends != null;
         for(String friend : friends){
-            Button button = new Button(friend);
-            selectFriend(button);
-            friendList.getChildren().add(button);
+            updateFriendList(friend);
         }
 
     }

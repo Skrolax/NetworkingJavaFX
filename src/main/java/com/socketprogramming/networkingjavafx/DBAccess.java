@@ -51,14 +51,14 @@ public class DBAccess {
         }
         sqlStatement.setString(1, username);
         resultSet = sqlStatement.executeQuery();
-        if(resultSet.next()) {
-            user = new User(
-                    resultSet.getString("Username"),
-                    resultSet.getString("UserPassword"),
-                    resultSet.getString("Email")
-            );
+        if(!resultSet.next()) {
+            return null;
         }
-        assert user != null;
+        user = new User(
+                resultSet.getString("Username"),
+                resultSet.getString("UserPassword"),
+                resultSet.getString("Email")
+        );
         if(!Objects.equals(user.getPassword(), password)){
             return null;
         }
