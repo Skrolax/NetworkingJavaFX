@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class ClientReceiveMessages extends IOThread{
@@ -52,6 +53,11 @@ public class ClientReceiveMessages extends IOThread{
             else if (Objects.equals(type, Objects.toString(RequestType.FRIENDREQUEST))){
                 FriendRequest friendRequest = gson.fromJson(messageJSON, FriendRequest.class);
                 System.out.println("Received a friend request from: " + friendRequest.getAuthorUsername());
+                try {
+                    DBAccess.addFriend(friendRequest);
+                } catch (SQLException e) {
+                    System.out.println("Couldn't add the friend");
+                }
             }
         }
     }

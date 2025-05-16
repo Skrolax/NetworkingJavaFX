@@ -15,10 +15,6 @@ import java.util.ResourceBundle;
 
 public class LoginFormController implements Initializable {
 
-    //Database
-    private DatabaseConnection databaseConnection;
-    private DBAccess DBAccess;
-
     //Misc.
     static User user;
 
@@ -55,6 +51,7 @@ public class LoginFormController implements Initializable {
     private void closeLoginWindow(){
         ((Stage)usernameLoginField.getScene().getWindow()).close();
     }
+
     private void clearLoginFields(){
         usernameLoginField.clear();
         passwordLoginField.clear();
@@ -63,11 +60,6 @@ public class LoginFormController implements Initializable {
     //Initialize
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            databaseConnection = new DatabaseConnection();
-        } catch (SQLException e) {
-            System.out.println("Couldn't connect to the database!");
-        }
-        DBAccess = new DBAccess(databaseConnection);
+
     }
 }

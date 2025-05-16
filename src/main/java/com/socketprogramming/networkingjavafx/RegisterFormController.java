@@ -15,10 +15,6 @@ import java.util.ResourceBundle;
 
 public class RegisterFormController implements Initializable {
 
-    //Database
-    private DatabaseConnection databaseConnection;
-    private DBAccess DBAccess;
-
     //Misc.
     static User user;
     private int registerStatus;
@@ -71,11 +67,6 @@ public class RegisterFormController implements Initializable {
     //Initialize
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            databaseConnection = new DatabaseConnection();
-        } catch (SQLException e) {
-            System.out.println("Couldn't connect to the database!");
-        }
-        DBAccess = new DBAccess(databaseConnection);
+
     }
 }
