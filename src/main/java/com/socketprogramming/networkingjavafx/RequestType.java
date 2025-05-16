@@ -1,6 +1,6 @@
 package com.socketprogramming.networkingjavafx;
 
-enum RequestType{
+public enum RequestType{
     TEXTMESSAGE,
     IMAGEMESSAGE,
     FRIENDREQUEST

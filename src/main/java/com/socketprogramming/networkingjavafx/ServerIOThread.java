@@ -1,10 +1,5 @@
 package com.socketprogramming.networkingjavafx;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -29,13 +24,17 @@ public class ServerIOThread extends IOThread{
                     TextMessage textMessage = gson.fromJson(messageJSON, TextMessage.class);
                     for(SocketClientHandler client : Server.clients){
                         if(Objects.equals(client.getUserData().getUsername(), textMessage.getReceiverUsername())){
-                            client.send.writeObject(gson.toJson(textMessage));
+                            client.send.writeObject(messageJSON);
                         }
                     }
                 }
                 else if (Objects.equals(type, Objects.toString(RequestType.IMAGEMESSAGE))) {
                     ImageMessage imageMessage = gson.fromJson(messageJSON, ImageMessage.class);
-                    //TODO
+                    for(SocketClientHandler client : Server.clients){
+                        if(Objects.equals(client.getUserData().getUsername(), imageMessage.getReceiverUsername())){
+                            client.send.writeObject(messageJSON);
+                        }
+                    }
                 }
                 else if (Objects.equals(type, Objects.toString(RequestType.FRIENDREQUEST))){
                     FriendRequest friendRequest = gson.fromJson(messageJSON, FriendRequest.class);

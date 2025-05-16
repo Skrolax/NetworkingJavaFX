@@ -4,15 +4,18 @@ import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.*;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
@@ -28,8 +31,11 @@ public class MainMenuController implements Initializable {
     //Misc.
     private final User user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
     private final Gson gson = new Gson();
+    private File imageFile = null;
 
     //FXML variables
+    @FXML
+    Label fileNameLabel;
     @FXML
     TextField messagePromptField;
     @FXML
@@ -41,18 +47,35 @@ public class MainMenuController implements Initializable {
     @FXML
     Button addFriendButton;
     @FXML
+    Button openFileButton;
+    @FXML
     TextArea messageArea;
 
     //FXML methods
     @FXML
     public void sendTextMessage() throws IOException {
-        TextMessage textMessage = new TextMessage(
-                messagePromptField.getText(), user.getUsername(), senderUsernameField.getText()
-        );
-        send.writeObject(gson.toJson(textMessage));
-        messageArea.appendText(textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n");
+        if(imageFile != null){
+            ImageMessage imageMessage = new ImageMessage(
+                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), senderUsernameField.getText(), RequestType.IMAGEMESSAGE
+            );
+            send.writeObject(gson.toJson(imageMessage));
+        }
+        else {
+            TextMessage textMessage = new TextMessage(
+                    messagePromptField.getText(), user.getUsername(), senderUsernameField.getText()
+            );
+
+            send.writeObject(gson.toJson(textMessage));
+            messageArea.appendText(textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n");
+        }
         messagePromptField.clear();
         senderUsernameField.clear();
+    }
+
+    public void selectFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose an image...");
+        imageFile = fileChooser.showOpenDialog(new Stage());
     }
 
     @FXML

@@ -10,11 +10,25 @@
 
 <BorderPane prefHeight="648.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.MainMenuController">
    <bottom>
-      <HBox prefHeight="27.0" prefWidth="666.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="57.0" prefWidth="939.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="messagePromptField" prefHeight="26.0" prefWidth="690.0" promptText="your textMessage" />
-            <TextField fx:id="senderUsernameField" prefHeight="26.0" prefWidth="199.0" promptText="sender's username" />
-            <Button fx:id="sendMessageButton" mnemonicParsing="false" onAction="#sendTextMessage" text="Send" />
+            <VBox prefHeight="58.0" prefWidth="938.0">
+               <children>
+                  <HBox prefHeight="26.0" prefWidth="938.0">
+                     <children>
+                        <TextField fx:id="messagePromptField" prefHeight="26.0" prefWidth="696.0" promptText="your text message" />
+                        <TextField fx:id="senderUsernameField" prefHeight="26.0" prefWidth="199.0" promptText="sender's username" />
+                        <Button fx:id="sendMessageButton" mnemonicParsing="false" onAction="#sendTextMessage" text="Send" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="openFileButton" mnemonicParsing="false" onAction="#selectFile" prefHeight="32.0" prefWidth="698.0" text="Open Image" />
+                        <Label fx:id="fileNameLabel" alignment="CENTER" prefHeight="36.0" prefWidth="242.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </HBox>
    </bottom>

@@ -41,12 +41,17 @@ public class ClientReceiveMessages extends IOThread{
             }
             else if (Objects.equals(type, Objects.toString(RequestType.IMAGEMESSAGE))) {
                 ImageMessage imageMessage = gson.fromJson(messageJSON, ImageMessage.class);
-                //TODO
+                try {
+                    System.out.println("Receive an image from: " + imageMessage.getAuthorUsername() +
+                            "\nURL is: " + ImageBase64.decodeBase64ToImage(imageMessage.getImageBase64(), "src/main/resources/output/image.png")
+                    );
+                } catch (IOException e) {
+                    System.out.println("Couldn't convert the Base64 String to File");
+                }
             }
             else if (Objects.equals(type, Objects.toString(RequestType.FRIENDREQUEST))){
                 FriendRequest friendRequest = gson.fromJson(messageJSON, FriendRequest.class);
                 System.out.println("Received a friend request from: " + friendRequest.getAuthorUsername());
-                //TODO
             }
         }
     }

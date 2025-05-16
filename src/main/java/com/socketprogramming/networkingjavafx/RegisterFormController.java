@@ -57,9 +57,11 @@ public class RegisterFormController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     private void closeRegisterWindow(){
         ((Stage)usernameRegisterField.getScene().getWindow()).close();
     }
+
     private void clearRegisterFields(){
         usernameRegisterField.clear();
         passwordRegisterField.clear();
