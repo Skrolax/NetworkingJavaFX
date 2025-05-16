@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -36,14 +37,13 @@ public class MainMenuController implements Initializable {
     private final Gson gson;
     private File imageFile = null;
     private ArrayList<String> friends;
+    private String selectedFriend;
 
     //FXML variables
     @FXML
     Label fileNameLabel;
     @FXML
     TextField messagePromptField;
-    @FXML
-    TextField senderUsernameField;
     @FXML
     TextField addFriendField;
     @FXML
@@ -52,6 +52,8 @@ public class MainMenuController implements Initializable {
     Button addFriendButton;
     @FXML
     Button openFileButton;
+    @FXML
+    VBox friendList;
     @FXML
     TextArea messageArea;
 
@@ -67,26 +69,26 @@ public class MainMenuController implements Initializable {
     public void sendTextMessage() throws IOException {
         if(imageFile != null){
             ImageMessage imageMessage = new ImageMessage(
-                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), senderUsernameField.getText(), RequestType.IMAGEMESSAGE
+                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
             );
             send.writeObject(gson.toJson(imageMessage));
         }
         else {
             TextMessage textMessage = new TextMessage(
-                    messagePromptField.getText(), user.getUsername(), senderUsernameField.getText()
+                    messagePromptField.getText(), user.getUsername(), selectedFriend
             );
 
             send.writeObject(gson.toJson(textMessage));
             messageArea.appendText(textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n");
         }
         messagePromptField.clear();
-        senderUsernameField.clear();
     }
 
     public void selectFile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an image...");
         imageFile = fileChooser.showOpenDialog(new Stage());
+        fileNameLabel.setText(imageFile.getName());
     }
 
     @FXML
@@ -118,6 +120,13 @@ public class MainMenuController implements Initializable {
     private void startReceiveMessageThread() throws IOException {
         clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
         clientReceiveMessagesThread.start();
+    }
+
+    private void selectFriend(Button button){
+        button.setOnAction(e -> {
+            selectedFriend = button.getText();
+            messageArea.clear();
+        });
     }
 
     //Initialize
@@ -161,6 +170,14 @@ public class MainMenuController implements Initializable {
         } catch (SQLException e) {
             System.out.println(e);
             System.out.println("Couldn't get the friend list");
+        }
+
+        //Update the friend list
+        assert friends != null;
+        for(String friend : friends){
+            Button button = new Button(friend);
+            selectFriend(button);
+            friendList.getChildren().add(button);
         }
 
     }
