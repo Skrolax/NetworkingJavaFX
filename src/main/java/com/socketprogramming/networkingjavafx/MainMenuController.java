@@ -1,6 +1,7 @@
 package com.socketprogramming.networkingjavafx;
 
 import com.google.gson.Gson;
+import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.ResourceBundle;
 
@@ -29,9 +31,11 @@ public class MainMenuController implements Initializable {
     ClientReceiveMessages clientReceiveMessagesThread;
 
     //Misc.
-    private final User user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
-    private final Gson gson = new Gson();
+    private Stage stage;
+    private final User user;
+    private final Gson gson;
     private File imageFile = null;
+    private ArrayList<String> friends;
 
     //FXML variables
     @FXML
@@ -50,6 +54,13 @@ public class MainMenuController implements Initializable {
     Button openFileButton;
     @FXML
     TextArea messageArea;
+
+    //Constructor
+    MainMenuController(Stage stage){
+        user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
+        gson = new Gson();
+        this.stage = stage;
+    }
 
     //FXML methods
     @FXML
@@ -85,9 +96,36 @@ public class MainMenuController implements Initializable {
         addFriendField.clear();
     }
 
+    private void connectToServer() throws IOException {
+        socket = new Socket("localhost", 5555);
+    }
+
+    private void sendUserData() throws IOException {
+        try {
+            assert send != null;
+            send.writeObject(user);
+            send.flush();
+        } catch (IOException e) {
+            System.out.println("Error occurred sending the User object");
+        }
+    }
+
+    private void initializeObjectStreams() throws IOException {
+        send = new ObjectOutputStream(socket.getOutputStream());
+        receive = new ObjectInputStream(socket.getInputStream());
+    }
+
+    private void startReceiveMessageThread() throws IOException {
+        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
+        clientReceiveMessagesThread.start();
+    }
+
     //Initialize
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //Set window title
+        stage.setTitle(user.getUsername());
 
         //Server Connection
         try {
@@ -117,36 +155,14 @@ public class MainMenuController implements Initializable {
             System.out.println("Couldn't start the ClientReceiveMessage thread");
         }
 
+        //Get the friend list
         try {
-            DatabaseConnection databaseConnection = new DatabaseConnection();
+            friends = DBAccess.getFriends(user);
         } catch (SQLException e) {
             System.out.println(e);
+            System.out.println("Couldn't get the friend list");
         }
 
-    }
-
-    private void connectToServer() throws IOException {
-        socket = new Socket("localhost", 5555);
-    }
-
-    private void sendUserData() throws IOException {
-        try {
-            assert send != null;
-            send.writeObject(user);
-            send.flush();
-        } catch (IOException e) {
-            System.out.println("Error occurred sending the User object");
-        }
-    }
-
-    private void initializeObjectStreams() throws IOException {
-        send = new ObjectOutputStream(socket.getOutputStream());
-        receive = new ObjectInputStream(socket.getInputStream());
-    }
-
-    private void startReceiveMessageThread() throws IOException {
-        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
-        clientReceiveMessagesThread.start();
     }
 
 }

@@ -48,6 +48,9 @@ public class RegisterFormController implements Initializable {
     private void openMainMenuWindow() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("MainMenuView.fxml"));
+        fxmlLoader.setControllerFactory(c -> {
+            return new MainMenuController(stage);
+        });
         Scene scene = new Scene(fxmlLoader.load(), 939, 648);
         stage.setTitle("Chat App");
         stage.setScene(scene);

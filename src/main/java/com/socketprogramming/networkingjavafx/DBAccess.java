@@ -80,7 +80,7 @@ public class DBAccess {
         sqlStatement.setString(1, user.getUsername());
         resultSet = sqlStatement.executeQuery();
         while(resultSet.next()){
-            friends.add(resultSet.getString("Friends_Username"));
+            friends.add(resultSet.getString("Friend_Username"));
         }
         return friends;
     }
