@@ -118,7 +118,7 @@ public class MainMenuController implements Initializable {
                     ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
             );
             send.writeObject(gson.toJson(imageMessage));
-            UI.createImageView(imageFile, messageArea, true);
+            UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername(),true);
             imageFile = null;
         }
         else {

@@ -54,6 +54,7 @@ public class ClientReceiveMessages extends IOThread{
                     UI.createImageView(
                             new Image(new ByteArrayInputStream(ImageBase64.decodeBase64ToImage(imageMessage.getImageBase64()))),
                             messageArea,
+                            imageMessage.getAuthorUsername(),
                             false
                     );
                 } catch (IOException e) {

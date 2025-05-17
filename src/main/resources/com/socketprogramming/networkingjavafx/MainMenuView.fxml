@@ -50,6 +50,9 @@
          <BorderPane.margin>
             <Insets left="10.0" />
          </BorderPane.margin>
+         <opaqueInsets>
+            <Insets right="10.0" />
+         </opaqueInsets>
       </VBox>
    </center>
 </BorderPane>

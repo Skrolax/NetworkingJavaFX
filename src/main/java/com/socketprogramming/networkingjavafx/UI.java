@@ -30,7 +30,7 @@ public class UI{
 
     }
 
-    public static void createImageView(File fileImage, VBox messageArea, boolean author){
+    public static void createImageView(File fileImage, VBox messageArea, String authorUsername, boolean author){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -38,7 +38,8 @@ public class UI{
                 imageView.setPreserveRatio(true);
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(400);
-                HBox hBox = new HBox(imageView);
+                HBox hBox = new HBox(new Label(authorUsername + ": "));
+                hBox.getChildren().add(imageView);
                 if (author) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
                 } else {
@@ -49,15 +50,16 @@ public class UI{
         });
     }
 
-    public static void createImageView(Image image, VBox messageArea, boolean author){
+    public static void createImageView(Image image, VBox messageArea, String authorUsername, boolean author){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(true);
-                imageView.setFitHeight(80);
-                imageView.setFitWidth(100);
-                HBox hBox = new HBox(imageView);
+                imageView.setFitHeight(200);
+                imageView.setFitWidth(400);
+                HBox hBox = new HBox(new Label(authorUsername + ": "));
+                hBox.getChildren().add(imageView);
                 if (author) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
                 } else {
