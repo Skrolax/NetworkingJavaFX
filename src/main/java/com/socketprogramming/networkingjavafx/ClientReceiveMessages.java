@@ -4,7 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -14,10 +18,10 @@ import java.util.Objects;
 public class ClientReceiveMessages extends IOThread{
 
     //Misc.
-    private TextArea messageArea;
+    private VBox messageArea;
 
     //Constructor
-    ClientReceiveMessages(Socket socket, ObjectInputStream receive, TextArea messageArea) {
+    ClientReceiveMessages(Socket socket, ObjectInputStream receive, VBox messageArea) {
         super(socket, receive);
         this.messageArea = messageArea;
     }
@@ -38,13 +42,19 @@ public class ClientReceiveMessages extends IOThread{
 
             if (Objects.equals(type, Objects.toString(RequestType.TEXTMESSAGE))) {
                 TextMessage textMessage = gson.fromJson(messageJSON, TextMessage.class);
-                messageArea.appendText(textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n");
+                UI.createTextMessageLabel(
+                        textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
+                        messageArea,
+                        false
+                );
             }
             else if (Objects.equals(type, Objects.toString(RequestType.IMAGEMESSAGE))) {
                 ImageMessage imageMessage = gson.fromJson(messageJSON, ImageMessage.class);
                 try {
-                    System.out.println("Receive an image from: " + imageMessage.getAuthorUsername() +
-                            "\nURL is: " + ImageBase64.decodeBase64ToImage(imageMessage.getImageBase64(), "src/main/resources/output/image.png")
+                    UI.createImageView(
+                            new Image(new ByteArrayInputStream(ImageBase64.decodeBase64ToImage(imageMessage.getImageBase64()))),
+                            messageArea,
+                            false
                     );
                 } catch (IOException e) {
                     System.out.println("Couldn't convert the Base64 String to File");

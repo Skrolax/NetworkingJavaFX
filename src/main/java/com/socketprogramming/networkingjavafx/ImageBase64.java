@@ -12,15 +12,8 @@ public class ImageBase64 {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
-    public static File decodeBase64ToImage(String imageBase64, String outputPath) throws IOException {
-        byte[] decodeImage = Base64.getDecoder().decode(imageBase64);
-        File outputFile = new File(outputPath);
-
-        try (FileOutputStream fos = new FileOutputStream(outputFile)) {
-            fos.write(decodeImage);
-        }
-
-        return outputFile;
+    public static byte[] decodeBase64ToImage(String imageBase64) throws IOException {
+        return Base64.getDecoder().decode(imageBase64);
     }
 
 }

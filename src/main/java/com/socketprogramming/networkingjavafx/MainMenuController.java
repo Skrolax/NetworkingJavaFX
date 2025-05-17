@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -55,7 +57,7 @@ public class MainMenuController implements Initializable {
     @FXML
     VBox friendList;
     @FXML
-    TextArea messageArea;
+    VBox messageArea;
 
     //Constructor
     MainMenuController(Stage stage){
@@ -64,40 +66,11 @@ public class MainMenuController implements Initializable {
         this.stage = stage;
     }
 
-    //FXML methods
-    @FXML
-    public void sendTextMessage() throws IOException {
-        if(imageFile != null){
-            ImageMessage imageMessage = new ImageMessage(
-                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
-            );
-            send.writeObject(gson.toJson(imageMessage));
-        }
-        else {
-            TextMessage textMessage = new TextMessage(
-                    messagePromptField.getText(), user.getUsername(), selectedFriend
-            );
-
-            send.writeObject(gson.toJson(textMessage));
-            messageArea.appendText(textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n");
-        }
-        messagePromptField.clear();
-    }
-
     public void selectFile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an image...");
         imageFile = fileChooser.showOpenDialog(new Stage());
         fileNameLabel.setText(imageFile.getName());
-    }
-
-    @FXML
-    public void sendFriendRequest() throws IOException {
-        FriendRequest friendRequest = new FriendRequest(user.getUsername(), addFriendField.getText());
-        send.writeObject(gson.toJson(friendRequest));
-        updateFriendList(addFriendField.getText());
-        addFriendField.clear();
-
     }
 
     private void connectToServer() throws IOException {
@@ -127,7 +100,7 @@ public class MainMenuController implements Initializable {
     private void selectFriend(Button button){
         button.setOnAction(e -> {
             selectedFriend = button.getText();
-            messageArea.clear();
+            messageArea.getChildren().removeAll();
         });
     }
 
@@ -135,6 +108,40 @@ public class MainMenuController implements Initializable {
         Button button = new Button(friend);
         selectFriend(button);
         friendList.getChildren().add(button);
+    }
+
+    //FXML methods
+    @FXML
+    public void sendTextMessage() throws IOException {
+        if(imageFile != null){
+            ImageMessage imageMessage = new ImageMessage(
+                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
+            );
+            send.writeObject(gson.toJson(imageMessage));
+            UI.createImageView(imageFile, messageArea, true);
+            imageFile = null;
+        }
+        else {
+            TextMessage textMessage = new TextMessage(
+                    messagePromptField.getText(), user.getUsername(), selectedFriend
+            );
+            send.writeObject(gson.toJson(textMessage));
+            UI.createTextMessageLabel(
+                    textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
+                    messageArea,
+                    true
+            );
+        }
+        messagePromptField.clear();
+    }
+
+    @FXML
+    public void sendFriendRequest() throws IOException {
+        FriendRequest friendRequest = new FriendRequest(user.getUsername(), addFriendField.getText());
+        send.writeObject(gson.toJson(friendRequest));
+        updateFriendList(addFriendField.getText());
+        addFriendField.clear();
+
     }
 
     //Initialize
