@@ -1,4 +1,7 @@
-package com.socketprogramming.networkingjavafx;
+package com.socketprogramming.networkingjavafx.database;
+
+import com.socketprogramming.networkingjavafx.client.User;
+import com.socketprogramming.networkingjavafx.messages.FriendRequest;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

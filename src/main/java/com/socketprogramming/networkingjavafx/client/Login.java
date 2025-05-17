@@ -1,4 +1,4 @@
-package com.socketprogramming.networkingjavafx;
+package com.socketprogramming.networkingjavafx.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,12 +7,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Register extends Application {
+public class Login extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("registerForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("/com/socketprogramming/networkingjavafx/LoginForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("Register");
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.show();
     }

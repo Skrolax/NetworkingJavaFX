@@ -1,4 +1,6 @@
-package com.socketprogramming.networkingjavafx;
+package com.socketprogramming.networkingjavafx.server;
+
+import com.socketprogramming.networkingjavafx.client.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

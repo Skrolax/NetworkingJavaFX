@@ -1,5 +1,8 @@
-package com.socketprogramming.networkingjavafx;
+package com.socketprogramming.networkingjavafx.controllers;
 
+import com.socketprogramming.networkingjavafx.client.Register;
+import com.socketprogramming.networkingjavafx.client.User;
+import com.socketprogramming.networkingjavafx.database.DBAccess;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +19,7 @@ import java.util.ResourceBundle;
 public class RegisterFormController implements Initializable {
 
     //Misc.
-    static User user;
+    public static User user;
     private int registerStatus;
 
     //FXML variables
@@ -47,7 +50,7 @@ public class RegisterFormController implements Initializable {
     //Methods
     private void openMainMenuWindow() throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("MainMenuView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("/com/socketprogramming/networkingjavafx/MainMenuView.fxml"));
         fxmlLoader.setControllerFactory(c -> {
             return new MainMenuController(stage);
         });
