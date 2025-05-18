@@ -1,24 +1,16 @@
-package com.socketprogramming.networkingjavafx.messages;
+package com.socketprogramming.networkingjavafx;
 
-import com.socketprogramming.networkingjavafx.common.RequestType;
+import java.io.File;
+import java.io.Serializable;
+import java.net.URL;
 
 public class ImageMessage extends ServerRequest {
 
     private String imageBase64;
-    private boolean accepted;
 
     public String getImageBase64() {
         return imageBase64;
     }
-
-    public void setStatus(boolean accepted){
-        this.accepted = accepted;
-    }
-
-    public boolean getStatus(){
-        return accepted;
-    }
-
 
     public ImageMessage(String imageBase64, String authorUsername, String receiverUsername, RequestType requestType) {
         super(authorUsername, receiverUsername, RequestType.IMAGEMESSAGE);

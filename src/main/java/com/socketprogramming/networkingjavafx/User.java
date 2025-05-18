@@ -1,4 +1,4 @@
-package com.socketprogramming.networkingjavafx.client;
+package com.socketprogramming.networkingjavafx;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class User implements Serializable {
     }
 
     //Constructor
-    public User(String username, String password, String email){
+    User(String username, String password, String email){
         this.username = username;
         this.password = password;
         this.email = email;

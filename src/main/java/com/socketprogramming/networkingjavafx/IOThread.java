@@ -1,9 +1,11 @@
-package com.socketprogramming.networkingjavafx.common;
+package com.socketprogramming.networkingjavafx;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.scene.control.TextArea;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
@@ -23,7 +25,7 @@ public abstract class IOThread extends Thread {
     }
 
     //Constructor
-    protected IOThread(Socket socket, ObjectInputStream receive) {
+    IOThread(Socket socket, ObjectInputStream receive) {
         this.socket = socket;
         this.receive = receive;
     }

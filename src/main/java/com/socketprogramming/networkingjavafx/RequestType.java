@@ -1,4 +1,4 @@
-package com.socketprogramming.networkingjavafx.common;
+package com.socketprogramming.networkingjavafx;
 
 public enum RequestType{
     TEXTMESSAGE,

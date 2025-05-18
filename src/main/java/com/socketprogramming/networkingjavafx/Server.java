@@ -1,4 +1,4 @@
-package com.socketprogramming.networkingjavafx.server;
+package com.socketprogramming.networkingjavafx;
 
 import java.io.IOException;
 import java.net.ServerSocket;

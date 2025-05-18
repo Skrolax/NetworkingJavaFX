@@ -1,4 +1,4 @@
-package com.socketprogramming.networkingjavafx.common;
+package com.socketprogramming.networkingjavafx;
 
 import java.io.*;
 import java.util.Base64;
