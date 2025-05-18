@@ -1,26 +1,32 @@
-package com.socketprogramming.networkingjavafx;
+package com.socketprogramming.networkingjavafx.controllers;
 
 import com.google.gson.Gson;
-import com.sun.tools.javac.Main;
+import com.socketprogramming.networkingjavafx.client.ClientReceiveMessages;
+import com.socketprogramming.networkingjavafx.ui.UI;
+import com.socketprogramming.networkingjavafx.client.User;
+import com.socketprogramming.networkingjavafx.common.ImageBase64;
+import com.socketprogramming.networkingjavafx.common.RequestType;
+import com.socketprogramming.networkingjavafx.database.DBAccess;
+import com.socketprogramming.networkingjavafx.messages.FriendRequest;
+import com.socketprogramming.networkingjavafx.messages.ImageMessage;
+import com.socketprogramming.networkingjavafx.messages.TextMessage;
+import com.socketprogramming.networkingjavafx.ui.UIFunctions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
@@ -41,31 +47,38 @@ public class MainMenuController implements Initializable {
     private ArrayList<String> friends;
     private String selectedFriend;
 
+    //UI Classes objects
+    private UI ui;
+    private UIFunctions uiFunctions;
+
+    //Message Box Variables
+    private final HBox messageHBox = new HBox();
+    private final TextField messagePromptField = new TextField();
+    private final Button openFileButton = new Button("Open");
+    private final Label fileNameLabel = new Label();
+    private final Button sendMessageButton = new Button("Send");
+    private final VBox messageArea = new VBox();
+
+
+
     //FXML variables
     @FXML
-    Label fileNameLabel;
-    @FXML
-    TextField messagePromptField;
+    BorderPane appBorderPane;
     @FXML
     TextField addFriendField;
     @FXML
-    Button sendMessageButton;
-    @FXML
     Button addFriendButton;
     @FXML
-    Button openFileButton;
-    @FXML
     VBox friendList;
-    @FXML
-    VBox messageArea;
 
     //Constructor
-    MainMenuController(Stage stage){
+    public MainMenuController(Stage stage){
         user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
         gson = new Gson();
         this.stage = stage;
     }
 
+    //Methods
     public void selectFile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an image...");
@@ -73,66 +86,20 @@ public class MainMenuController implements Initializable {
         fileNameLabel.setText(imageFile.getName());
     }
 
-    private void connectToServer() throws IOException {
-        socket = new Socket("localhost", 5555);
-    }
-
-    private void sendUserData() throws IOException {
-        try {
-            assert send != null;
-            send.writeObject(user);
-            send.flush();
-        } catch (IOException e) {
-            System.out.println("Error occurred sending the User object");
-        }
-    }
-
-    private void initializeObjectStreams() throws IOException {
-        send = new ObjectOutputStream(socket.getOutputStream());
-        receive = new ObjectInputStream(socket.getInputStream());
-    }
-
-    private void startReceiveMessageThread() throws IOException {
-        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
-        clientReceiveMessagesThread.start();
-    }
-
+    //Friend list
     private void selectFriend(Button button){
         button.setOnAction(e -> {
             selectedFriend = button.getText();
-            messageArea.getChildren().removeAll();
+            UI.openChat(messageHBox, messageArea, messagePromptField, sendMessageButton, fileNameLabel, openFileButton);
+            UIFunctions.activateSendMessageFunction(button, user, selectedFriend, messageArea, imageFile, messagePromptField, fileNameLabel);
         });
     }
 
     private void updateFriendList(String friend){
         Button button = new Button(friend);
+        UI.setFriendButtonWidth(button, friendList);
         selectFriend(button);
         friendList.getChildren().add(button);
-    }
-
-    //FXML methods
-    @FXML
-    public void sendTextMessage() throws IOException {
-        if(imageFile != null){
-            ImageMessage imageMessage = new ImageMessage(
-                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
-            );
-            send.writeObject(gson.toJson(imageMessage));
-            UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername(),true);
-            imageFile = null;
-        }
-        else {
-            TextMessage textMessage = new TextMessage(
-                    messagePromptField.getText(), user.getUsername(), selectedFriend
-            );
-            send.writeObject(gson.toJson(textMessage));
-            UI.createTextMessageLabel(
-                    textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
-                    messageArea,
-                    true
-            );
-        }
-        messagePromptField.clear();
     }
 
     @FXML
@@ -141,7 +108,6 @@ public class MainMenuController implements Initializable {
         send.writeObject(gson.toJson(friendRequest));
         updateFriendList(addFriendField.getText());
         addFriendField.clear();
-
     }
 
     //Initialize
@@ -179,11 +145,14 @@ public class MainMenuController implements Initializable {
             System.out.println("Couldn't start the ClientReceiveMessage thread");
         }
 
+        //UI
+        ui = new UI(appBorderPane);
+        uiFunctions = new UIFunctions(send);
+
         //Get the friend list
         try {
             friends = DBAccess.getFriends(user);
         } catch (SQLException e) {
-            System.out.println(e);
             System.out.println("Couldn't get the friend list");
         }
 
@@ -193,6 +162,31 @@ public class MainMenuController implements Initializable {
             updateFriendList(friend);
         }
 
+    }
+
+    //Initialize methods
+    private void connectToServer() throws IOException {
+        socket = new Socket("localhost", 5555);
+    }
+
+    private void sendUserData() throws IOException {
+        try {
+            assert send != null;
+            send.writeObject(user);
+            send.flush();
+        } catch (IOException e) {
+            System.out.println("Error occurred sending the User object");
+        }
+    }
+
+    private void initializeObjectStreams() throws IOException {
+        send = new ObjectOutputStream(socket.getOutputStream());
+        receive = new ObjectInputStream(socket.getInputStream());
+    }
+
+    private void startReceiveMessageThread() throws IOException {
+        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
+        clientReceiveMessagesThread.start();
     }
 
 }

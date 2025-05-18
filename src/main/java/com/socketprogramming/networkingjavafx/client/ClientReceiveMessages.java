@@ -1,12 +1,15 @@
-package com.socketprogramming.networkingjavafx;
+package com.socketprogramming.networkingjavafx.client;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import javafx.scene.control.TextArea;
+import com.socketprogramming.networkingjavafx.common.IOThread;
+import com.socketprogramming.networkingjavafx.common.ImageBase64;
+import com.socketprogramming.networkingjavafx.common.RequestType;
+import com.socketprogramming.networkingjavafx.database.DBAccess;
+import com.socketprogramming.networkingjavafx.messages.FriendRequest;
+import com.socketprogramming.networkingjavafx.messages.ImageMessage;
+import com.socketprogramming.networkingjavafx.messages.TextMessage;
+import com.socketprogramming.networkingjavafx.ui.UI;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,13 +18,13 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class ClientReceiveMessages extends IOThread{
+public class ClientReceiveMessages extends IOThread {
 
     //Misc.
     private VBox messageArea;
 
     //Constructor
-    ClientReceiveMessages(Socket socket, ObjectInputStream receive, VBox messageArea) {
+    public ClientReceiveMessages(Socket socket, ObjectInputStream receive, VBox messageArea) {
         super(socket, receive);
         this.messageArea = messageArea;
     }
