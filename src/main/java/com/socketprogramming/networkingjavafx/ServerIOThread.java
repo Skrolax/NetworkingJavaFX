@@ -1,17 +1,11 @@
-package com.socketprogramming.networkingjavafx.server;
-
-import com.socketprogramming.networkingjavafx.common.IOThread;
-import com.socketprogramming.networkingjavafx.common.RequestType;
-import com.socketprogramming.networkingjavafx.messages.FriendRequest;
-import com.socketprogramming.networkingjavafx.messages.ImageMessage;
-import com.socketprogramming.networkingjavafx.messages.TextMessage;
+package com.socketprogramming.networkingjavafx;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Objects;
 
-public class ServerIOThread extends IOThread {
+public class ServerIOThread extends IOThread{
 
     //Constructor
     ServerIOThread(Socket socket, ObjectInputStream receive) {

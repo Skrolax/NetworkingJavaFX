@@ -1,6 +1,4 @@
-package com.socketprogramming.networkingjavafx.messages;
-
-import com.socketprogramming.networkingjavafx.common.RequestType;
+package com.socketprogramming.networkingjavafx;
 
 import java.io.Serializable;
 
