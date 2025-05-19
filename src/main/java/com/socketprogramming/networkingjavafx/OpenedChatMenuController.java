@@ -135,13 +135,6 @@ public class OpenedChatMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //Server Connection
-        try {
-            connectToServer();
-        } catch (Exception e) {
-            System.out.println("Couldn't connect to the server");
-        }
-
         //Object Streams
         try {
             initializeObjectStreams();

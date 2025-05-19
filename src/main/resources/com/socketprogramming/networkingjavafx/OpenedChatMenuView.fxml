@@ -8,45 +8,45 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="648.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.OpenedChatMenuController">
+<BorderPane prefHeight="648.0" prefWidth="939.0" styleClass="root-pane" stylesheets="@../../../Style/OpenedChatMenuStyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.OpenedChatMenuController">
    <bottom>
-      <HBox prefHeight="57.0" prefWidth="939.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="50.0" prefWidth="939.0" styleClass="message-box-panel" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="42.0" prefWidth="938.0">
+            <HBox prefHeight="50.0" prefWidth="417.0" styleClass="profile-container" />
+            <HBox alignment="CENTER" prefHeight="26.0" prefWidth="938.0" styleClass="send-message-container">
                <children>
-                  <HBox prefHeight="26.0" prefWidth="938.0">
-                     <children>
-                        <TextField fx:id="messagePromptField" prefHeight="26.0" prefWidth="617.0" promptText="your text message" />
-                        <Button fx:id="openFileButton" mnemonicParsing="false" onAction="#selectFile" prefHeight="26.0" prefWidth="84.0" text="Open Image" />
-                        <Label fx:id="fileNameLabel" alignment="CENTER" prefHeight="26.0" prefWidth="186.0" />
-                        <Button fx:id="sendMessageButton" mnemonicParsing="false" onAction="#sendTextMessage" prefHeight="26.0" prefWidth="47.0" text="Send" />
-                     </children>
-                  </HBox>
+                  <TextField fx:id="messagePromptField" prefHeight="26.0" prefWidth="439.0" promptText="your text message" styleClass="send-message-prompt" />
+                  <Button fx:id="openFileButton" mnemonicParsing="false" onAction="#selectFile" prefHeight="26.0" prefWidth="90.0" styleClass="open-image-button" text="Open Image" />
+                  <Label fx:id="fileNameLabel" alignment="CENTER" prefHeight="26.0" prefWidth="128.0" styleClass="image-file-label" />
+                  <Button fx:id="sendMessageButton" mnemonicParsing="false" onAction="#sendTextMessage" prefHeight="26.0" prefWidth="47.0" styleClass="send-message-button" text="Send" />
                </children>
-            </VBox>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </HBox>
          </children>
       </HBox>
    </bottom>
-   <left>
-      <VBox prefHeight="621.0" prefWidth="187.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="16.0" prefWidth="187.0">
-               <children>
-                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="186.0" text="Friends" textAlignment="CENTER" />
-                  <HBox prefHeight="26.0" prefWidth="187.0">
-                     <children>
-                        <TextField fx:id="addFriendField" promptText="Add a friend" />
-                        <Button fx:id="addFriendButton" mnemonicParsing="false" onAction="#sendFriendRequest" text="Add" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox fx:id="friendList" prefHeight="547.0" prefWidth="187.0" />
-         </children>
-      </VBox>
-   </left>
    <center>
       <VBox fx:id="messageArea" prefHeight="590.0" prefWidth="709.0" BorderPane.alignment="CENTER">
       </VBox>
    </center>
+   <left>
+      <VBox fx:id="friendList" prefHeight="592.0" prefWidth="205.0" styleClass="friend-list-panel" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="31.0" prefWidth="200.0" styleClass="friend-list-title" text="Friends" textAlignment="CENTER" />
+            <HBox prefHeight="22.0" prefWidth="200.0" styleClass="add-friend-container">
+               <children>
+                  <TextField fx:id="addFriendField" alignment="TOP_LEFT" prefHeight="27.2" prefWidth="150.0" promptText="Add a friend" styleClass="add-friend-field" />
+                  <Button fx:id="addFriendButton" mnemonicParsing="false" onAction="#sendFriendRequest" prefHeight="25.0" prefWidth="46.0" styleClass="add-friend-button" text="Add" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <VBox fx:id="selectFriendVBox" prefHeight="523.0" prefWidth="203.0" spacing="2.0" styleClass="friend-list-container" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets right="5.0" top="5.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>
