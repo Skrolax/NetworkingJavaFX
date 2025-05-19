@@ -23,6 +23,11 @@
     -fx-text-fill: #d1cfcf;
 }
 
+.button:pressed{
+    -fx-background-color: #0f0f0f;
+    -fx-text-fill: #d1cfcf;
+}
+
 .friend-list-panel{
     -fx-padding: 0;
     -fx-border-style: hidden solid hidden hidden;
@@ -72,4 +77,15 @@
     -fx-border-radius: 0px;
     -fx-background-radius: 0px;
     -fx-border-radius: 105px;
+}
+
+.message-box{
+    -fx-background-color: #444544;
+    -text-alignment: center;
+    -fx-min-height: 25px;
+    -fx-padding: 10 15;
+}
+
+.message-box .label{
+    -fx-text-fill: white;
 }

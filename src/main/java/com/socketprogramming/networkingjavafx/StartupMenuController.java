@@ -26,8 +26,9 @@ import java.util.ResourceBundle;
 public class StartupMenuController implements Initializable {
 
     //Socket
-    private Socket socket;
-    private ObjectOutputStream send;
+    private static Socket socket;
+    private static ObjectOutputStream send;
+    private static ObjectInputStream receive;
 
     //Threads
     ClientReceiveMessages clientReceiveMessagesThread;
@@ -44,6 +45,18 @@ public class StartupMenuController implements Initializable {
 
     public static User getUser() {
         return user;
+    }
+
+    public static Socket getSocket() {
+        return socket;
+    }
+
+    public static ObjectOutputStream getSend() {
+        return send;
+    }
+
+    public static ObjectInputStream getReceive() {
+        return receive;
     }
 
     public Stage getStage() {
@@ -78,6 +91,7 @@ public class StartupMenuController implements Initializable {
 
     private void initializeObjectStreams() throws IOException {
         send = new ObjectOutputStream(socket.getOutputStream());
+        receive = new ObjectInputStream(socket.getInputStream());
     }
 
 

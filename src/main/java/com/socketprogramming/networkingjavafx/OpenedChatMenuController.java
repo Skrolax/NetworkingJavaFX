@@ -20,15 +20,14 @@ import java.util.ResourceBundle;
 public class OpenedChatMenuController implements Initializable {
 
     //Socket
-    private Socket socket;
-    private ObjectOutputStream send;
-    private ObjectInputStream receive;
+    private Socket socket = StartupMenuController.getSocket();
+    private ObjectOutputStream send = StartupMenuController.getSend();
+    private ObjectInputStream receive = StartupMenuController.getReceive();
 
     //Threads
     ClientReceiveMessages clientReceiveMessagesThread;
 
     //Misc.
-    private Stage stage;
     private final User user = StartupMenuController.getUser();
     private final Gson gson = new Gson();
     private File imageFile = null;
@@ -52,6 +51,9 @@ public class OpenedChatMenuController implements Initializable {
     VBox friendList;
     @FXML
     VBox messageArea;
+    @FXML
+    VBox selectFriendVBox;
+
 
     public void selectFile(){
         FileChooser fileChooser = new FileChooser();
@@ -74,32 +76,15 @@ public class OpenedChatMenuController implements Initializable {
         }
     }
 
-    private void initializeObjectStreams() throws IOException {
-        send = new ObjectOutputStream(socket.getOutputStream());
-        receive = new ObjectInputStream(socket.getInputStream());
-    }
-
     private void startReceiveMessageThread() throws IOException {
         clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
         clientReceiveMessagesThread.start();
     }
 
-    private void selectFriend(Button button){
-        button.setOnAction(e -> {
-            selectedFriend = button.getText();
-            messageArea.getChildren().removeAll();
-        });
-    }
-
-    private void updateFriendList(String friend){
-        Button button = new Button(friend);
-        selectFriend(button);
-        friendList.getChildren().add(button);
-    }
-
     //FXML methods
     @FXML
     public void sendTextMessage() throws IOException {
+        System.out.println(selectedFriend);
         if(imageFile != null){
             ImageMessage imageMessage = new ImageMessage(
                     ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
@@ -122,32 +107,26 @@ public class OpenedChatMenuController implements Initializable {
         messagePromptField.clear();
     }
 
+    private void selectFriend(Button button) {
+
+    }
+
+    private void updateFriendList(String friend) {
+        Button button = UI.createFriendButton(friend, selectFriendVBox);
+        selectFriend(button);
+    }
+
     @FXML
     public void sendFriendRequest() throws IOException {
         FriendRequest friendRequest = new FriendRequest(user.getUsername(), addFriendField.getText());
         send.writeObject(gson.toJson(friendRequest));
         updateFriendList(addFriendField.getText());
         addFriendField.clear();
-
     }
 
     //Initialize
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        //Object Streams
-        try {
-            initializeObjectStreams();
-        } catch (IOException e) {
-            System.out.println("Couldn't initialize the Object Streams");
-        }
-
-        //Sending user data
-        try {
-            sendUserData();
-        } catch (IOException e) {
-            System.out.println("Couldn't send the User data");
-        }
 
         //Starting ReceiveMessage Thread
         try {

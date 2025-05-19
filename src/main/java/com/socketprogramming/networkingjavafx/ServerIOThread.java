@@ -48,6 +48,9 @@ public class ServerIOThread extends IOThread{
 
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("Server couldn't receive the message");
+                System.out.println(e);
+                e.printStackTrace();
+                return;
             }
         }
     }

@@ -17,7 +17,6 @@ public class UI{
     public static Button createFriendButton(String friend, VBox showcaseFriendsVBox){
         Button button = new Button(friend);
         button.prefWidthProperty().bind(showcaseFriendsVBox.widthProperty());
-
         showcaseFriendsVBox.getChildren().add(button);
         return button;
     }
@@ -29,6 +28,7 @@ public class UI{
                 Label label = new Label(message);
                 label.setWrapText(true);
                 HBox hBox = new HBox(label);
+                hBox.getStyleClass().add("message-box");
                 if (author) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
                 } else {
@@ -44,11 +44,13 @@ public class UI{
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                System.out.println(author);
                 ImageView imageView = new ImageView(new Image(fileImage.toURI().toString()));
                 imageView.setPreserveRatio(true);
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(400);
                 HBox hBox = new HBox(new Label(authorUsername + ": "));
+                hBox.getStyleClass().add("message-box");
                 hBox.getChildren().add(imageView);
                 if (author) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -69,6 +71,7 @@ public class UI{
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(400);
                 HBox hBox = new HBox(new Label(authorUsername + ": "));
+                hBox.getStyleClass().add("message-box");
                 hBox.getChildren().add(imageView);
                 if (author) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
