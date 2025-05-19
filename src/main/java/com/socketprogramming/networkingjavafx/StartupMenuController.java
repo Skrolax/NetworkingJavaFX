@@ -33,20 +33,20 @@ public class StartupMenuController implements Initializable {
     ClientReceiveMessages clientReceiveMessagesThread;
 
     //Misc.
-    private static final User user  = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
+    private static final User user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
     private final Gson gson = new Gson();
     private ArrayList<String> friends;
     private static String selectedFriend;
 
-    public static String getSelectedFriend(){
+    public static String getSelectedFriend() {
         return selectedFriend;
     }
 
-    public static User getUser(){
+    public static User getUser() {
         return user;
     }
 
-    public Stage getStage(){
+    public Stage getStage() {
         return (Stage) addFriendButton.getScene().getWindow();
     }
 
@@ -57,6 +57,10 @@ public class StartupMenuController implements Initializable {
     Button addFriendButton;
     @FXML
     VBox friendList;
+    @FXML
+    VBox sidePanel;
+    @FXML
+    VBox selectFriendVBox;
 
     private void connectToServer() throws IOException {
         socket = new Socket("localhost", 5555);
@@ -76,7 +80,8 @@ public class StartupMenuController implements Initializable {
         send = new ObjectOutputStream(socket.getOutputStream());
     }
 
-    private void selectFriend(Button button){
+
+    private void selectFriend(Button button) {
         button.setOnAction(open -> {
             selectedFriend = button.getText();
             try {
@@ -87,10 +92,9 @@ public class StartupMenuController implements Initializable {
         });
     }
 
-    private void updateFriendList(String friend){
-        Button button = new Button(friend);
+    private void updateFriendList(String friend) {
+        Button button = UI.createFriendButton(friend, selectFriendVBox);
         selectFriend(button);
-        friendList.getChildren().add(button);
     }
 
     @FXML
@@ -99,7 +103,6 @@ public class StartupMenuController implements Initializable {
         send.writeObject(gson.toJson(friendRequest));
         updateFriendList(addFriendField.getText());
         addFriendField.clear();
-
     }
 
     //Initialize
@@ -138,10 +141,9 @@ public class StartupMenuController implements Initializable {
 
         //Update the friend list
         assert friends != null;
-        for(String friend : friends){
+        for (String friend : friends) {
             updateFriendList(friend);
         }
 
     }
-
 }

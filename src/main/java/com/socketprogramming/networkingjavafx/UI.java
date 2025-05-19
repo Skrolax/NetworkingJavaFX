@@ -3,14 +3,24 @@ package com.socketprogramming.networkingjavafx;
 
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import java.io.File;
 
 public class UI{
+
+    public static Button createFriendButton(String friend, VBox showcaseFriendsVBox){
+        Button button = new Button(friend);
+        button.prefWidthProperty().bind(showcaseFriendsVBox.widthProperty());
+
+        showcaseFriendsVBox.getChildren().add(button);
+        return button;
+    }
 
     public static void createTextMessageLabel(String message, VBox messageArea, boolean author){
         Platform.runLater(new Runnable() {
@@ -50,7 +60,7 @@ public class UI{
         });
     }
 
-    public static void createImageView(Image image, VBox messageArea, String authorUsername, boolean author){
+    public static void createImageView(Image image, VBox displayMedium, String authorUsername, boolean author){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -65,9 +75,17 @@ public class UI{
                 } else {
                     hBox.setAlignment(Pos.CENTER_LEFT);
                 }
-                messageArea.getChildren().add(hBox);
+                displayMedium.getChildren().add(hBox);
             }
         });
+    }
+
+    public static void setHBoxResizable(HBox hBox){
+        HBox.setHgrow(hBox, Priority.ALWAYS);
+    }
+
+    public static void setVBoxResizable(VBox vBox){
+        VBox.setVgrow(vBox, Priority.ALWAYS);
     }
 
 }

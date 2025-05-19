@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -7,30 +8,35 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="648.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.StartupMenuController">
-   <left>
-      <VBox prefHeight="621.0" prefWidth="187.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="16.0" prefWidth="187.0">
-               <children>
-                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="186.0" text="Friends" textAlignment="CENTER" />
-                  <HBox prefHeight="26.0" prefWidth="187.0">
-                     <children>
-                        <TextField fx:id="addFriendField" promptText="Add a friend" />
-                        <Button fx:id="addFriendButton" mnemonicParsing="false" onAction="#sendFriendRequest" text="Add" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox fx:id="friendList" prefHeight="547.0" prefWidth="187.0" />
-         </children>
-      </VBox>
-   </left>
+<BorderPane prefHeight="648.0" prefWidth="939.0" styleClass="root-pane" stylesheets="@../../../Style/StartupMenuStyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.StartupMenuController">
    <center>
-      <VBox fx:id="messageArea" prefHeight="590.0" prefWidth="709.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="sidePanel" prefHeight="642.0" prefWidth="726.0" styleClass="welcome-message-panel" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="666.0" prefWidth="782.0" text="bineativenitrauatinimerit" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="666.0" prefWidth="782.0" styleClass="welcome-message" text="bineativenitrauatinimerit" textAlignment="CENTER" />
          </children>
       </VBox>
    </center>
+   <left>
+      <VBox fx:id="friendList" prefHeight="642.0" prefWidth="206.0" styleClass="friend-list-panel" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="31.0" prefWidth="200.0" styleClass="friend-list-title" text="Friends" textAlignment="CENTER" />
+            <HBox prefHeight="22.0" prefWidth="200.0" styleClass="add-friend-container">
+               <children>
+                  <TextField fx:id="addFriendField" alignment="TOP_LEFT" prefHeight="27.2" prefWidth="150.0" promptText="Add a friend" styleClass="add-friend-field" />
+                  <Button fx:id="addFriendButton" mnemonicParsing="false" onAction="#sendFriendRequest" prefHeight="25.0" prefWidth="46.0" styleClass="add-friend-button" text="Add" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <VBox fx:id="selectFriendVBox" prefHeight="523.0" prefWidth="318.0" spacing="2.0" styleClass="friend-list-container" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets right="5.0" top="5.0" />
+               </VBox.margin>
+            </VBox>
+            <HBox prefHeight="58.0" prefWidth="200.0" styleClass="profile-container">
+               <VBox.margin>
+                  <Insets left="-10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

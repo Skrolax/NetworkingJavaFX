@@ -1,0 +1,64 @@
+.root-pane{
+    -fx-background-color: #333333;
+    -fx-border-style: solid;
+    -fx-border-color: #242424;
+    -fx-border-width: 3px;
+    -fx-padding: 0px;
+}
+
+.button{
+    -fx-background-color: #1f1f1f;
+    -fx-background-insets: 0;
+    -fx-border-style: solid;
+    -fx-border-color: #242424;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+}
+
+.button:hover {
+    -fx-background-color: #3d3d3d;
+    -fx-text-fill: #d1cfcf;
+}
+
+.friend-list-panel{
+    -fx-padding: 0;
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-color: #242424;
+    -fx-border-width: 3px;
+}
+
+.friend-list-container{
+    -fx-spacing: 2px;
+}
+
+.add-friend-container{
+    -fx-alignment: "TOP_LEFT";
+}
+
+.friend-list-title{
+    -fx-text-fill: white;
+}
+
+.add-friend-field{
+    -fx-text-fill: white;
+    -fx-background-color: #1f1f1f;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+}
+
+.add-friend-button{
+    -fx-border-style: hidden hidden hidden solid;
+}
+
+.welcome-message{
+    -fx-text-fill: white;
+}
+
+.profile-container{
+    -fx-padding: 0px;
+    -fx-border-style: solid hidden hidden hidden;
+    -fx-border-color: #242424;
+    -fx-border-width: 3px;
+}
