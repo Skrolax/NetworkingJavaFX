@@ -1,9 +1,7 @@
 package com.socketprogramming.networkingjavafx;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -41,20 +39,7 @@ public class RegisterFormController implements Initializable {
             return;
         };
         closeRegisterWindow();
-        openMainMenuWindow();
-    }
-
-    //Methods
-    private void openMainMenuWindow() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("MainMenuView.fxml"));
-        fxmlLoader.setControllerFactory(c -> {
-            return new MainMenuController(stage);
-        });
-        Scene scene = new Scene(fxmlLoader.load(), 939, 648);
-        stage.setTitle("Chat App");
-        stage.setScene(scene);
-        stage.show();
+        JavafxStageManager.openNewWindow(new Stage(), "StartupMenuView.FXML");
     }
 
     private void closeRegisterWindow(){

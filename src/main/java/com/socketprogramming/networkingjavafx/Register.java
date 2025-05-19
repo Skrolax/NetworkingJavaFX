@@ -1,8 +1,6 @@
 package com.socketprogramming.networkingjavafx;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -10,11 +8,7 @@ import java.io.IOException;
 public class Register extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Register.class.getResource("registerForm.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("Register");
-        stage.setScene(scene);
-        stage.show();
+        JavafxStageManager.openNewWindow(stage, "RegisterFormView.fxml");
     }
 
     public static void main(String[] args) {

@@ -23,55 +23,40 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.ResourceBundle;
 
-public class MainMenuController implements Initializable {
+public class StartupMenuController implements Initializable {
 
     //Socket
     private Socket socket;
     private ObjectOutputStream send;
-    private ObjectInputStream receive;
 
     //Threads
     ClientReceiveMessages clientReceiveMessagesThread;
 
     //Misc.
-    private Stage stage;
-    private final User user;
-    private final Gson gson;
-    private File imageFile = null;
+    private static final User user  = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
+    private final Gson gson = new Gson();
     private ArrayList<String> friends;
-    private String selectedFriend;
+    private static String selectedFriend;
+
+    public static String getSelectedFriend(){
+        return selectedFriend;
+    }
+
+    public static User getUser(){
+        return user;
+    }
+
+    public Stage getStage(){
+        return (Stage) addFriendButton.getScene().getWindow();
+    }
 
     //FXML variables
     @FXML
-    Label fileNameLabel;
-    @FXML
-    TextField messagePromptField;
-    @FXML
     TextField addFriendField;
-    @FXML
-    Button sendMessageButton;
     @FXML
     Button addFriendButton;
     @FXML
-    Button openFileButton;
-    @FXML
     VBox friendList;
-    @FXML
-    VBox messageArea;
-
-    //Constructor
-    MainMenuController(Stage stage){
-        user = (RegisterFormController.user != null) ? RegisterFormController.user : LoginFormController.user;
-        gson = new Gson();
-        this.stage = stage;
-    }
-
-    public void selectFile(){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose an image...");
-        imageFile = fileChooser.showOpenDialog(new Stage());
-        fileNameLabel.setText(imageFile.getName());
-    }
 
     private void connectToServer() throws IOException {
         socket = new Socket("localhost", 5555);
@@ -89,18 +74,16 @@ public class MainMenuController implements Initializable {
 
     private void initializeObjectStreams() throws IOException {
         send = new ObjectOutputStream(socket.getOutputStream());
-        receive = new ObjectInputStream(socket.getInputStream());
-    }
-
-    private void startReceiveMessageThread() throws IOException {
-        clientReceiveMessagesThread = new ClientReceiveMessages(socket, receive, messageArea);
-        clientReceiveMessagesThread.start();
     }
 
     private void selectFriend(Button button){
-        button.setOnAction(e -> {
+        button.setOnAction(open -> {
             selectedFriend = button.getText();
-            messageArea.getChildren().removeAll();
+            try {
+                JavafxStageManager.changeScene(getStage(), "OpenedChatMenuView.fxml");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -108,31 +91,6 @@ public class MainMenuController implements Initializable {
         Button button = new Button(friend);
         selectFriend(button);
         friendList.getChildren().add(button);
-    }
-
-    //FXML methods
-    @FXML
-    public void sendTextMessage() throws IOException {
-        if(imageFile != null){
-            ImageMessage imageMessage = new ImageMessage(
-                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
-            );
-            send.writeObject(gson.toJson(imageMessage));
-            UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername(),true);
-            imageFile = null;
-        }
-        else {
-            TextMessage textMessage = new TextMessage(
-                    messagePromptField.getText(), user.getUsername(), selectedFriend
-            );
-            send.writeObject(gson.toJson(textMessage));
-            UI.createTextMessageLabel(
-                    textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
-                    messageArea,
-                    true
-            );
-        }
-        messagePromptField.clear();
     }
 
     @FXML
@@ -147,9 +105,6 @@ public class MainMenuController implements Initializable {
     //Initialize
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        //Set window title
-        stage.setTitle(user.getUsername());
 
         //Server Connection
         try {
@@ -172,12 +127,6 @@ public class MainMenuController implements Initializable {
             System.out.println("Couldn't send the User data");
         }
 
-        //Starting ReceiveMessage Thread
-        try {
-            startReceiveMessageThread();
-        } catch (IOException e) {
-            System.out.println("Couldn't start the ClientReceiveMessage thread");
-        }
 
         //Get the friend list
         try {

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="648.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.MainMenuController">
+<BorderPane prefHeight="648.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.socketprogramming.networkingjavafx.OpenedChatMenuController">
    <bottom>
       <HBox prefHeight="57.0" prefWidth="939.0" BorderPane.alignment="CENTER">
          <children>
@@ -47,12 +47,6 @@
    </left>
    <center>
       <VBox fx:id="messageArea" prefHeight="590.0" prefWidth="709.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets left="10.0" />
-         </BorderPane.margin>
-         <opaqueInsets>
-            <Insets right="10.0" />
-         </opaqueInsets>
       </VBox>
    </center>
 </BorderPane>
