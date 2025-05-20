@@ -21,48 +21,39 @@ public class UI{
         return button;
     }
 
-    public static void createTextMessageLabel(String message, VBox messageArea, boolean author){
+    public static void createTextMessageLabel(String message, VBox messageArea){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 Label label = new Label(message);
                 label.setWrapText(true);
-                HBox hBox = new HBox(label);
-                hBox.getStyleClass().add("message-box");
-                if (author) {
-                    hBox.setAlignment(Pos.CENTER_RIGHT);
-                } else {
-                    hBox.setAlignment(Pos.CENTER_LEFT);
-                }
-                messageArea.getChildren().add(hBox);
+                VBox vBox = new VBox(label);
+                vBox.getStyleClass().add("message-box");
+                vBox.setAlignment(Pos.CENTER_LEFT);
+                messageArea.getChildren().add(vBox);
             }
         });
 
     }
 
-    public static void createImageView(File fileImage, VBox messageArea, String authorUsername, boolean author){
+    public static void createImageView(File fileImage, VBox messageArea, String authorUsername){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println(author);
                 ImageView imageView = new ImageView(new Image(fileImage.toURI().toString()));
                 imageView.setPreserveRatio(true);
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(400);
-                HBox hBox = new HBox(new Label(authorUsername + ": "));
-                hBox.getStyleClass().add("message-box");
-                hBox.getChildren().add(imageView);
-                if (author) {
-                    hBox.setAlignment(Pos.CENTER_RIGHT);
-                } else {
-                    hBox.setAlignment(Pos.CENTER_LEFT);
-                }
-                messageArea.getChildren().add(hBox);
+                VBox vBox = new VBox(new Label(authorUsername + ": \n"));
+                vBox.getStyleClass().add("message-box");
+                vBox.getChildren().add(imageView);
+                vBox.setAlignment(Pos.CENTER_LEFT);
+                messageArea.getChildren().add(vBox);
             }
         });
     }
 
-    public static void createImageView(Image image, VBox displayMedium, String authorUsername, boolean author){
+    public static void createImageView(Image image, VBox displayMedium, String authorUsername){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -70,15 +61,11 @@ public class UI{
                 imageView.setPreserveRatio(true);
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(400);
-                HBox hBox = new HBox(new Label(authorUsername + ": "));
-                hBox.getStyleClass().add("message-box");
-                hBox.getChildren().add(imageView);
-                if (author) {
-                    hBox.setAlignment(Pos.CENTER_RIGHT);
-                } else {
-                    hBox.setAlignment(Pos.CENTER_LEFT);
-                }
-                displayMedium.getChildren().add(hBox);
+                VBox vBox = new VBox(new Label(authorUsername + ": \n"));
+                vBox.getStyleClass().add("message-box");
+                vBox.getChildren().add(imageView);
+                vBox.setAlignment(Pos.CENTER_LEFT);
+                displayMedium.getChildren().add(vBox);
             }
         });
     }

@@ -44,8 +44,7 @@ public class ClientReceiveMessages extends IOThread{
                 TextMessage textMessage = gson.fromJson(messageJSON, TextMessage.class);
                 UI.createTextMessageLabel(
                         textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
-                        messageArea,
-                        false
+                        messageArea
                 );
             }
             else if (Objects.equals(type, Objects.toString(RequestType.IMAGEMESSAGE))) {
@@ -54,8 +53,7 @@ public class ClientReceiveMessages extends IOThread{
                     UI.createImageView(
                             new Image(new ByteArrayInputStream(ImageBase64.decodeBase64ToImage(imageMessage.getImageBase64()))),
                             messageArea,
-                            imageMessage.getAuthorUsername(),
-                            false
+                            imageMessage.getAuthorUsername()
                     );
                 } catch (IOException e) {
                     System.out.println("Couldn't convert the Base64 String to File");

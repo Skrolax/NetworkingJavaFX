@@ -84,13 +84,12 @@ public class OpenedChatMenuController implements Initializable {
     //FXML methods
     @FXML
     public void sendTextMessage() throws IOException {
-        System.out.println(selectedFriend);
         if(imageFile != null){
             ImageMessage imageMessage = new ImageMessage(
                     ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
             );
             send.writeObject(gson.toJson(imageMessage));
-            UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername(),true);
+            UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername());
             imageFile = null;
         }
         else {
@@ -100,8 +99,7 @@ public class OpenedChatMenuController implements Initializable {
             send.writeObject(gson.toJson(textMessage));
             UI.createTextMessageLabel(
                     textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
-                    messageArea,
-                    true
+                    messageArea
             );
         }
         messagePromptField.clear();
