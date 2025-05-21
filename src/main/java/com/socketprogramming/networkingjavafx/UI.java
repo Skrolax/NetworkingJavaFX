@@ -70,6 +70,10 @@ public class UI{
         });
     }
 
+    public static void openSendImageContainer(){
+        
+    }
+
     public static void setHBoxResizable(HBox hBox){
         HBox.setHgrow(hBox, Priority.ALWAYS);
     }

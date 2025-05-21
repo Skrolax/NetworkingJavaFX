@@ -12,7 +12,7 @@
    <center>
       <VBox fx:id="sidePanel" prefHeight="642.0" prefWidth="726.0" styleClass="welcome-message-panel" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="666.0" prefWidth="782.0" styleClass="welcome-message" text="bineativenitrauatinimerit" textAlignment="CENTER" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="666.0" prefWidth="782.0" styleClass="welcome-message" text="Welcome to the #1 messaging app in my computer!" textAlignment="CENTER" />
          </children>
       </VBox>
    </center>
