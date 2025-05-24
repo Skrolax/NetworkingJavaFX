@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class OpenedChatMenuController implements Initializable {
@@ -59,20 +60,8 @@ public class OpenedChatMenuController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an image...");
         imageFile = fileChooser.showOpenDialog(new Stage());
-        fileNameLabel.setText(imageFile.getName());
-    }
-
-    private void connectToServer() throws IOException {
-        socket = new Socket("localhost", 5555);
-    }
-
-    private void sendUserData() throws IOException {
-        try {
-            assert send != null;
-            send.writeObject(user);
-            send.flush();
-        } catch (IOException e) {
-            System.out.println("Error occurred sending the User object");
+        if(imageFile != null) {
+            fileNameLabel.setText(imageFile.getName());
         }
     }
 
@@ -83,7 +72,10 @@ public class OpenedChatMenuController implements Initializable {
 
     //FXML methods
     @FXML
-    public void sendTextMessage() throws IOException {
+    public void sendMessage() throws IOException {
+        if(imageFile == null && Objects.equals(messagePromptField.getText(), "")){
+            return;
+        }
         if(imageFile != null){
             ImageMessage imageMessage = new ImageMessage(
                     ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE

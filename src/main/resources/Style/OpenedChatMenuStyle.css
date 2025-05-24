@@ -90,6 +90,6 @@
     -fx-text-fill: white;
 }
 
-.send-image-container{
-
+.scroll-message-area{
+    -fx-background-color: #333333;
 }
