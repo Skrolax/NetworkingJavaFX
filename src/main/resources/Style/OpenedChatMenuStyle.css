@@ -58,18 +58,19 @@
     -fx-border-style: hidden hidden hidden solid;
 }
 
-.profile-container{
-    -fx-padding: 0px;
-    -fx-border-style: solid solid hidden hidden;
-    -fx-border-color: #242424;
-    -fx-border-width: 3px;
-}
-
-.send-message-container{
+.message-box-panel{
     -fx-border-style: solid hidden hidden hidden;
     -fx-border-color: #242424;
     -fx-border-width: 3px;
 }
+
+.profile-container{
+    -fx-padding: 0px;
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-color: #242424;
+    -fx-border-width: 3px;
+}
+
 
 .send-message-prompt{
     -fx-text-fill: white;
@@ -93,4 +94,24 @@
 .scroll-message-area{
     -fx-background-color: #333333;
     -fx-background: #333333;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #3d3d3d;
+    -fx-background-insets: 2;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: #333333;
+    -fx-background-radius: 5;
 }

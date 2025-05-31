@@ -39,12 +39,10 @@ public class UI{
                 VBox.setVgrow(label, Priority.NEVER);
                 vBox.getStyleClass().add("message-box");
                 vBox.setAlignment(Pos.CENTER_LEFT);
+                vBox.heightProperty().addListener(observable -> scrollPane.setVvalue(1D));
                 messageArea.getChildren().add(vBox);
-                messageArea.layout();
-                scrollPane.setVvalue(1.0);
             }
         });
-
     }
 
     public static void createImageView(File fileImage, VBox messageArea, String authorUsername) {
@@ -64,9 +62,8 @@ public class UI{
             vBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             vBox.setMinHeight(Region.USE_PREF_SIZE);
             VBox.setVgrow(vBox, Priority.NEVER);
+            vBox.heightProperty().addListener(observable -> scrollPane.setVvalue(1D));
             messageArea.getChildren().add(vBox);
-            messageArea.layout();
-            scrollPane.setVvalue(1.0);
         });
     }
 
@@ -83,23 +80,10 @@ public class UI{
                 vBox.getStyleClass().add("message-box");
                 vBox.getChildren().add(imageView);
                 vBox.setAlignment(Pos.CENTER_LEFT);
+                vBox.heightProperty().addListener(observable -> scrollPane.setVvalue(1D));
                 displayMedium.getChildren().add(vBox);
-                displayMedium.layout();
-                scrollPane.setVvalue(1.0);
             }
         });
-    }
-
-    public static void openSendImageContainer(){
-        
-    }
-
-    public static void setHBoxResizable(HBox hBox){
-        HBox.setHgrow(hBox, Priority.ALWAYS);
-    }
-
-    public static void setVBoxResizable(VBox vBox){
-        VBox.setVgrow(vBox, Priority.ALWAYS);
     }
 
 }

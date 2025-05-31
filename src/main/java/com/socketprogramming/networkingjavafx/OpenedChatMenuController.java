@@ -100,13 +100,11 @@ public class OpenedChatMenuController implements Initializable {
         messagePromptField.clear();
     }
 
-    private void selectFriend(Button button) {
-
-    }
-
     private void updateFriendList(String friend) {
         Button button = UI.createFriendButton(friend, selectFriendVBox);
-        selectFriend(button);
+        button.setOnAction(actionEvent -> {
+            selectedFriend = button.getText();
+        });
     }
 
     @FXML
