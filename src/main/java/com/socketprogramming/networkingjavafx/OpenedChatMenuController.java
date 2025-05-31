@@ -7,10 +7,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
@@ -56,15 +59,24 @@ public class OpenedChatMenuController implements Initializable {
     @FXML
     VBox selectFriendVBox;
     @FXML
+    VBox sendImageVBox;
+    @FXML
+    ImageView sendImageView;
+    @FXML
     ScrollPane scrollPane;
 
 
-    public void selectFile(){
+    public void selectFile() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an image...");
         imageFile = fileChooser.showOpenDialog(new Stage());
         if(imageFile != null) {
-            fileNameLabel.setText(imageFile.getName());
+            sendImageView.setImage(new Image(imageFile.toURI().toString()));
+            sendImageView.setFitHeight(200);
+        }
+        else{
+            sendImageView.setImage(null);
+            sendImageView.setFitHeight(0);
         }
     }
 
@@ -98,6 +110,8 @@ public class OpenedChatMenuController implements Initializable {
             );
         }
         messagePromptField.clear();
+        sendImageView.setImage(null);
+        sendImageView.setFitHeight(0);
     }
 
     private void updateFriendList(String friend) {

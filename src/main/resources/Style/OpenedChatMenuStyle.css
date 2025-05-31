@@ -71,7 +71,6 @@
     -fx-border-width: 3px;
 }
 
-
 .send-message-prompt{
     -fx-text-fill: white;
     -fx-background-color: #1f1f1f;
@@ -114,4 +113,8 @@
 .scroll-pane .scroll-bar:vertical .track {
     -fx-background-color: #333333;
     -fx-background-radius: 5;
+}
+
+.send-image-container{
+    -fx-background-color: #3b3b3b;
 }
