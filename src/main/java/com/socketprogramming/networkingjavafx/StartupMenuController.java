@@ -140,6 +140,7 @@ public class StartupMenuController implements Initializable {
         //Sending user data
         try {
             sendUserData();
+            DataSaving.createDirectory(user.getUsername());
         } catch (IOException e) {
             System.out.println("Couldn't send the User data");
         }
@@ -157,6 +158,11 @@ public class StartupMenuController implements Initializable {
         assert friends != null;
         for (String friend : friends) {
             updateFriendList(friend);
+            try {
+                DataSaving.createJSON(user.getUsername() + "/" + friend);
+            } catch (IOException e) {
+                System.out.println("Couldn't create the JSON file");
+            }
         }
 
     }

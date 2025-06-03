@@ -37,7 +37,9 @@ build/
 ### Mac OS ###
 .DS_Store
 
+
 ### Personal ###
 
 src/main/java/com/socketprogramming/networkingjavafx/DatabaseConnection.java
 src/main/java/com/socketprogramming/networkingjavafx/Playground.java
+src/main/resources/Message Logs

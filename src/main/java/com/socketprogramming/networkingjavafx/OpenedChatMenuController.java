@@ -24,6 +24,9 @@ import java.util.ResourceBundle;
 
 public class OpenedChatMenuController implements Initializable {
 
+    //I don't usually open myself too much, but god, if this son of a bitch program doesn't work the way I intended, then we'll have a very, very serious problem
+    //I'm done playing around. I want all this to be over, so, please, tell me, HOW THE FUCK DO I CREATE MY MESSAGES SAVING SYSTEM??? HOW?
+
     //Socket
     private Socket socket = StartupMenuController.getSocket();
     private ObjectOutputStream send = StartupMenuController.getSend();
@@ -124,6 +127,7 @@ public class OpenedChatMenuController implements Initializable {
         messagePromptField.clear();
         sendImageView.setImage(null);
         sendImageView.setFitHeight(0);
+        DataSaving.updateConversation(user.getUsername(), selectedFriend, messageArea);
     }
 
     private void updateFriendList(String friend) {
@@ -143,8 +147,6 @@ public class OpenedChatMenuController implements Initializable {
         updateFriendList(addFriendField.getText());
         addFriendField.clear();
     }
-
-
 
     //Initialize
     @Override
