@@ -85,29 +85,41 @@ public class OpenedChatMenuController implements Initializable {
         clientReceiveMessagesThread.start();
     }
 
+    private void sendTextMessage() throws IOException {
+        TextMessage textMessage = new TextMessage(
+                messagePromptField.getText(), user.getUsername(), selectedFriend
+        );
+        send.writeObject(gson.toJson(textMessage));
+        UI.createTextMessageLabel(
+                textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
+                messageArea
+        );
+    }
+
+    private void sendImageMessage() throws IOException {
+        ImageMessage imageMessage = new ImageMessage(
+                ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
+        );
+        send.writeObject(gson.toJson(imageMessage));
+        UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername());
+        imageFile = null;
+    }
+
     //FXML methods
     @FXML
     public void sendMessage() throws IOException {
         if(imageFile == null && Objects.equals(messagePromptField.getText(), "")){
             return;
         }
+
         if(imageFile != null){
-            ImageMessage imageMessage = new ImageMessage(
-                    ImageBase64.encodeImageToBase64(imageFile), user.getUsername(), selectedFriend, RequestType.IMAGEMESSAGE
-            );
-            send.writeObject(gson.toJson(imageMessage));
-            UI.createImageView(imageFile, messageArea, imageMessage.getAuthorUsername());
-            imageFile = null;
+            sendImageMessage();
+            if(!Objects.equals(messagePromptField.getText(), "")){
+                sendTextMessage();
+            }
         }
         else {
-            TextMessage textMessage = new TextMessage(
-                    messagePromptField.getText(), user.getUsername(), selectedFriend
-            );
-            send.writeObject(gson.toJson(textMessage));
-            UI.createTextMessageLabel(
-                    textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
-                    messageArea
-            );
+            sendTextMessage();
         }
         messagePromptField.clear();
         sendImageView.setImage(null);
@@ -118,6 +130,9 @@ public class OpenedChatMenuController implements Initializable {
         Button button = UI.createFriendButton(friend, selectFriendVBox);
         button.setOnAction(actionEvent -> {
             selectedFriend = button.getText();
+
+            //the code down below is a placeholder for the whole saving messages system
+            messageArea.getChildren().removeAll(messageArea.getChildren());
         });
     }
 
@@ -128,6 +143,8 @@ public class OpenedChatMenuController implements Initializable {
         updateFriendList(addFriendField.getText());
         addFriendField.clear();
     }
+
+
 
     //Initialize
     @Override

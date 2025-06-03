@@ -64,7 +64,7 @@
    <center>
       <VBox prefHeight="508.0" prefWidth="727.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="652.0" prefWidth="727.0" styleClass="scroll-message-area" vvalue="1.0" VBox.vgrow="ALWAYS">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="738.0" prefWidth="727.0" styleClass="scroll-message-area" vvalue="1.0" VBox.vgrow="ALWAYS">
                <content>
                   <VBox fx:id="messageArea" prefWidth="709.0" spacing="3.0" styleClass="scroll-message-area">
             </VBox>
@@ -72,7 +72,7 @@
             </ScrollPane>
             <VBox fx:id="sendImageVBox" alignment="CENTER" prefHeight="0.0" prefWidth="727.0" styleClass="send-image-container" VBox.vgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="sendImageView" fitHeight="1.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="sendImageView" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
          </children>

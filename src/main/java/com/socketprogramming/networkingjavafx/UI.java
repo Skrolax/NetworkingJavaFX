@@ -14,7 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import java.io.File;
 
-public class UI{
+public class UI extends JavafxStageManager{
 
     private static ScrollPane scrollPane;
 
