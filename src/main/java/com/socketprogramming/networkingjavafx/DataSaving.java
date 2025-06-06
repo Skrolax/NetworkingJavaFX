@@ -1,11 +1,17 @@
 package com.socketprogramming.networkingjavafx;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class DataSaving {
 
@@ -16,7 +22,10 @@ public class DataSaving {
 
     private static final String path = "src/main/resources/Message Logs/";
     private static FileWriter fileWriter;
+    private static FileReader fileReader;
     private static final Gson gson = new Gson();
+    private static List<String> messages;
+    private static String chatPath;
 
     public static File createDirectory(String directoryName){
         File file = new File(path + directoryName);
@@ -34,21 +43,46 @@ public class DataSaving {
         return false;
     }
 
-    public static void updateConversation(String clientUsername, String friendUsername, VBox messageArea) throws IOException {
-        fileWriter = new FileWriter(clientUsername + ".json");
-        gson.toJson(messageArea, fileWriter);
+    private static void getMessagesFromFile(String clientUsername, String friendUsername) throws IOException {
+        messages = new ArrayList<>();
+        chatPath = path + clientUsername + "/" + friendUsername + ".json";
+        Type listType = new TypeToken<List<String>>(){}.getType();
+        fileReader = new FileReader(chatPath);
+        messages = gson.fromJson(fileReader, listType);
+        messages = Objects.requireNonNullElseGet(messages, ArrayList::new);
+    }
 
-        //It doesn't work
-        //I have to access every single node of the messageArea so that I can serialize each of them separately
-        //It's somewhat the same process as the system of detecting what kind of messages are being sent to the server
+    public static void updateConversation(String clientUsername, String friendUsername, VBox messageArea) throws IOException {
+        chatPath = path + clientUsername + "/" + friendUsername + ".json";
+        fileWriter = new FileWriter(chatPath);
+        for(Node messageBox: messageArea.getChildren()){
+            if(messageBox instanceof VBox vbox){
+                for(Node message: vbox.getChildren()) {
+                    if (message instanceof Label label) {
+                        try{
+                            messages.add(label.getText());
+                        }catch (Exception e){
+                            System.out.println("Couldn't get the message data");
+                        }
+                    } else if (message instanceof ImageView imageView) {
+                        try{
+                            messages.add(ImageBase64.encodeImageToBase64(new File(imageView.getImage().getUrl())));
+                        }catch (Exception e){
+                            System.out.println("Couldn't get the message data");
+                        }
+                    }
+                }
+            }
+        }
+
+        gson.toJson(messages, fileWriter);
+        messages.clear();
+        fileWriter.flush();
 
     }
 
-    public static void loadConversation(String clientUsername, String friendUsername){
-        //very important things will happen around here
-        //like the messages will be all managed and manipulated around here
-        //stay tuned
-        //TODO
+    public static void loadConversation(String clientUsername, String friendUsername) throws IOException {
+        getMessagesFromFile(clientUsername, friendUsername);
     }
 
 

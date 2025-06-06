@@ -1,6 +1,7 @@
 package com.socketprogramming.networkingjavafx;
 
 import com.google.gson.Gson;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,9 +29,9 @@ public class OpenedChatMenuController implements Initializable {
     //I'm done playing around. I want all this to be over, so, please, tell me, HOW THE FUCK DO I CREATE MY MESSAGES SAVING SYSTEM??? HOW?
 
     //Socket
-    private Socket socket = StartupMenuController.getSocket();
-    private ObjectOutputStream send = StartupMenuController.getSend();
-    private ObjectInputStream receive = StartupMenuController.getReceive();
+    private final Socket socket = StartupMenuController.getSocket();
+    private final ObjectOutputStream send = StartupMenuController.getSend();
+    private final ObjectInputStream receive = StartupMenuController.getReceive();
 
     //Threads
     ClientReceiveMessages clientReceiveMessagesThread;
@@ -127,16 +128,28 @@ public class OpenedChatMenuController implements Initializable {
         messagePromptField.clear();
         sendImageView.setImage(null);
         sendImageView.setFitHeight(0);
+        Platform.runLater(()->{
+            try {
+                DataSaving.updateConversation(user.getUsername(), selectedFriend, messageArea);
+            } catch (IOException e) {
+                System.out.println("Couldn't save the messages!");
+            }
+        });
         DataSaving.updateConversation(user.getUsername(), selectedFriend, messageArea);
     }
 
     private void updateFriendList(String friend) {
         Button button = UI.createFriendButton(friend, selectFriendVBox);
         button.setOnAction(actionEvent -> {
-            selectedFriend = button.getText();
+            selectedFriend = friend;
 
             //the code down below is a placeholder for the whole saving messages system
             messageArea.getChildren().removeAll(messageArea.getChildren());
+            try {
+                DataSaving.loadConversation(user.getUsername(), friend);
+            } catch (IOException e) {
+                System.out.println("Couldn't load the conversation");
+            }
         });
     }
 

@@ -3,6 +3,7 @@ package com.socketprogramming.networkingjavafx;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
@@ -46,6 +47,13 @@ public class ClientReceiveMessages extends IOThread{
                         textMessage.getAuthorUsername() + ": " + textMessage.getMessage() + "\n",
                         messageArea
                 );
+                Platform.runLater(()->{
+                    try {
+                       DataSaving.updateConversation(textMessage.getReceiverUsername(), textMessage.getAuthorUsername(), messageArea);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
             else if (Objects.equals(type, Objects.toString(RequestType.IMAGEMESSAGE))) {
                 ImageMessage imageMessage = gson.fromJson(messageJSON, ImageMessage.class);
@@ -55,6 +63,13 @@ public class ClientReceiveMessages extends IOThread{
                             messageArea,
                             imageMessage.getAuthorUsername()
                     );
+                    Platform.runLater(()->{
+                        try {
+                            DataSaving.updateConversation(imageMessage.getReceiverUsername(), imageMessage.getAuthorUsername(), messageArea);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                 } catch (IOException e) {
                     System.out.println("Couldn't convert the Base64 String to File");
                 }
